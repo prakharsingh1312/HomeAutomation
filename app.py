@@ -20,6 +20,9 @@ class Budget(db.Model):
 	amount=db.Column('amount',db.Float)
 	timestamp=db.Column('timestamp',db.DateTime);
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
+	budget_type_id=db.Column('budget_types_id' , db.Integer , db.ForeignKey('budget_types.id'))
+	budget_payment_id=db.Column('budget_payment_method_id' , db.Integer , db.ForeignKey('budget_payment_method.id'))
+
 
 class BudgetTypes(db.Model):
 	__tablename__='budget_types'
@@ -27,12 +30,16 @@ class BudgetTypes(db.Model):
 	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 
+	budget_types=db.relationship('Budget' , backref='owner')
+
 class BudgetPaymentMethod(db.Model):
 	__tablename__='budget_payment_method'
 	id=db.Column('id', db.Integer , primary_key=True)
 	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
-	
+	payment=db.relationship('Budget' , backref='owner')
+
+
 
 class UserTable(db.Model):
 	__tablename__='user'
@@ -44,8 +51,10 @@ class UserTable(db.Model):
 	budgets=db.relationship('Budget', backref='owner')
 	budget_types=db.relationship('BudgetTypes', backref='owner')
 	budget_payment_methods=db.relationship('BudgetPaymentMethod', backref='owner')
-	
-	
+	reminder=db.relationship('ReminderAlarm' , backref='owner')
+	parameter=db.relationship('AutomationParameter' , backref='owner')
+
+
 
 class ReminderAlarm(db.Model):
     __tablename__='ReminderAlarm'
@@ -55,24 +64,29 @@ class ReminderAlarm(db.Model):
     frequency=db.Column('frequency' , db.Integer)
     time=db.Column('time' , db.Time)
     day=db.Column('day' , db.Date)
-	
+    user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
+
 
 class Automation(db.Model):
     __tablename__='Automation'
     id=db.Column("id" , db.Integer , primary_key=True)
-    # parameter_id=db.Column('parameter_id')
-    # parameter_value=db.Column('parameter value' , db.Integer)
-    # appliance_state_value=db.Column('state value' , db.Integer)
-    # appliance_state_value - Tells us about when the appliance will ON/OFF
+    parameter_id=db.Column('parameter_id' , db.Integer)
+    parameter_value=db.Column('parameter value' , db.Integer)
+    appliance_state_value=db.Column('state value' , db.Integer)
+    automation_parameter_id=db.Column('Automation_paraqmeter_id' , db.Integer , db.ForeignKey('Parameter.id'))
+
 
 class AutomationParameter(db.Model):
-	__tablename='Parameter'
+	__tablename__='Parameter'
 	id=db.Column('id' , db.Integer , primary_key=True)
 	name=db.Column('name' , db.String(100), unique=True)
 	min=db.Column('min value' , db.Integer)
 	max=db.Column('max value' , db.Integer)
+	parameter=db.relationship('Automation' , backref='owner')
+
+	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
 db.create_all()
-#db.drop_all()
+# db.drop_all()
 
 @app.route("/")
 def hello():
