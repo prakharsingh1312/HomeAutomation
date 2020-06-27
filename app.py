@@ -9,7 +9,7 @@ class Appliances(db.Model):
 	id=db.Column('id', db.Integer , primary_key=True)
 	name=db.Column('name' , db.String , unique=True)
 	state=db.Column('state' , db.Integer)
-	#user_id=db.Column('user_id',db.Integer)
+	user_id=db.Column('user_id',db.Integer,db.ForeignKey(''))
 
 class Budget(db.Model):
 	__tablename__='budget'
@@ -36,7 +36,7 @@ class BudgetPaymentMethod(db.Model):
 
 class UserTable(db.model):
     __tablename__='user'
-    id=db.Column('user_id' , db.Integer , primary_key=True)
+    id=db.Column('id' , db.Integer , primary_key=True)
     name=db.Column('name' , db.String)
     password=db.Column('password' , db.String)
     email=db.Column('email' , db.String)
