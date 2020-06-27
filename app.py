@@ -7,7 +7,7 @@ db=SQLAlchemy(app)
 class Appliances(db.Model):
 	__tablename__='appliances'
 	id=db.Column('id', db.Integer , primary_key=True)
-	name=db.Column('name' , db.String , unique=True)
+	name=db.Column('name' , db.String(100) , unique=True)
 	state=db.Column('state' , db.Integer)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 
@@ -15,7 +15,7 @@ class Budget(db.Model):
 	__tablename__='budget'
 	id=db.Column('id', db.Integer , primary_key=True)
 	#type=db.Column('type',db.Integer)
-	desc=db.Column('desc',db.String)
+	desc=db.Column('desc',db.String(1000))
 	#payment_method=db.Column('payment_method',db.Integer)
 	amount=db.Column('amount',db.Float)
 	timestamp=db.Column('timestamp',db.DateTime);
@@ -24,22 +24,22 @@ class Budget(db.Model):
 class BudgetTypes(db.Model):
 	__tablename__='budget_types'
 	id=db.Column('id', db.Integer , primary_key=True)
-	name=db.Column('name',db.String,unique=True)
+	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 
 class BudgetPaymentMethod(db.Model):
 	__tablename__='budget_payment_method'
 	id=db.Column('id', db.Integer , primary_key=True)
-	name=db.Column('name',db.String,unique=True)
+	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 	
 
 class UserTable(db.Model):
 	__tablename__='user'
 	id=db.Column('id' , db.Integer , primary_key=True)
-	name=db.Column('name' , db.String)
-	password=db.Column('password' , db.String)
-	email=db.Column('email' , db.String)
+	name=db.Column('name' , db.String(100))
+	password=db.Column('password' , db.String(100))
+	email=db.Column('email' , db.String(100))
 	appliances=db.relationship('Appliances', backref='owner')
 	budgets=db.relationship('Budget', backref='owner')
 	budget_types=db.relationship('BudgetTypes', backref='owner')
@@ -51,7 +51,7 @@ class ReminderAlarm(db.Model):
     __tablename__='ReminderAlarm'
     id=db.Column('id' , db.Integer, primary_key=True)
     type=db.Column('alert type' , db.Integer)
-    description=db.Column('description' , db.String)
+    description=db.Column('description' , db.String(100))
     frequency=db.Column('frequency' , db.Integer)
     time=db.Column('time' , db.Time)
     day=db.Column('day' , db.Date)
@@ -68,7 +68,7 @@ class Automation(db.Model):
 class AutomationParameter(db.Model):
 	__tablename='Parameter'
 	id=db.Column('id' , db.Integer , primary_key=True)
-	name=db.Column('name' , db.String , unique=True)
+	name=db.Column('name' , db.String(100), unique=True)
 	min=db.Column('min value' , db.Integer)
 	max=db.Column('max value' , db.Integer)
 db.create_all()
