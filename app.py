@@ -1,8 +1,15 @@
-from flask import Flask
+from flask import Flask , render_template
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+
+@app.route("/")
+def ritik():
+	return render_template('login.html')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
+
+
 
 class Appliances(db.Model):
 	__tablename__='appliances'
@@ -85,7 +92,7 @@ class AutomationParameter(db.Model):
 	parameter=db.relationship('Automation' , backref='owner')
 
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
-db.create_all()
+# db.create_all()
 # db.drop_all()
 
 @app.route("/")
