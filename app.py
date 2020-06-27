@@ -2,10 +2,7 @@ from flask import Flask , render_template
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
-@app.route("/")
-def ritik():
-	return render_template('login.html')
-
+#DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
 
@@ -94,7 +91,13 @@ class AutomationParameter(db.Model):
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
 # db.create_all()
 # db.drop_all()
+#######################
+####################
 
+#ROUTES
 @app.route("/")
-def hello():
-    return "Hello, I love Digital Ocean!"
+def ritik():
+	return render_template('index.html')
+@app.route("/login")
+def login():
+	return render_template('login-page.html')
