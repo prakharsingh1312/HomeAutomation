@@ -2,13 +2,7 @@ from flask import Flask , render_template
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
-# Login Page
 
-@app.route("/")
-def ritik():
-	return render_template('login.html')
-
-# END of login
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
@@ -102,9 +96,21 @@ class AutomationParameter(db.Model):
 ####################
 
 #ROUTES
+# Home Page
 @app.route("/")
-def ritik():
+def home():
 	return render_template('index.html')
+# END of Home Page
+# Login Page
+
 @app.route("/login")
 def login():
 	return render_template('login-page.html')
+
+# END of login
+
+# Signup Page
+@app.route("/signup")
+def signup():
+	return render_template('signup-page.html')
+# END of Signup Page
