@@ -101,3 +101,6 @@ def ritik():
 @app.route("/login")
 def login():
 	return render_template('login-page.html')
+@app.route("/signup")
+def signup():
+	return render_template('signup-page.html')
