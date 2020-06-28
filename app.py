@@ -2,14 +2,18 @@ from flask import Flask , render_template
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
+# Login Page
+
 @app.route("/")
 def ritik():
 	return render_template('login.html')
 
+# END of login
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
 
-
+# Tables
 
 class Appliances(db.Model):
 	__tablename__='appliances'
