@@ -1,5 +1,5 @@
 from flask import Flask , render_template , request , session , redirect , url_for
-from passlib.hash import sha256_crypt
+import hashlib
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = 'popatpanda'
@@ -96,28 +96,44 @@ class AutomationParameter(db.Model):
 #######################
 #Functions
 def signup(name,password,email):
-	
+
 	if(UserTable.query.filter_by(email=email).count()):
 		return 0
 	user=UserTable(name = name , password = password , email = email)
 	db.session.add(user)
 	db.session.commit()
 	return 1
-def crypt_password(password):
-	return sha256_crypt.encrypt(password)
 
+def crypt_password(password):
+	salt='maakichoot'
+	password=password+salt
+	password=hashlib.md5(password.encode())
+	return password.hexdigest()
+
+def login(email , password):
+	if(UserTable.query.filter_by(email=email).count()):
+		user=UserTable.query.filter_by(email=email).first()
+		password=crypt_password(password)
+		if(user.password==password):
+			return 1
+	return 0
 ####################
 
 #ROUTES
 # Home Page
 @app.route("/")
-def home():
+def dashboard_page():
 	return render_template('index.html')
 # END of Home Page
 # Login Page
 
-@app.route("/login")
+@app.route("/login" , methods=['GET' , 'POST'])
 def login_page():
+	if request.method == 'POST':
+		email=request.form['email']
+		password=request.form['password']
+		if login(email , password):
+			return redirect(url_for('dashboard_page'))
 	return render_template('login-page.html')
 
 # END of login
