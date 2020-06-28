@@ -98,7 +98,13 @@ class AutomationParameter(db.Model):
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
 # db.create_all()
 # db.drop_all()
+#######################
+####################
 
+#ROUTES
 @app.route("/")
-def hello():
-    return "Hello, I love Digital Ocean!"
+def ritik():
+	return render_template('index.html')
+@app.route("/login")
+def login():
+	return render_template('login-page.html')
