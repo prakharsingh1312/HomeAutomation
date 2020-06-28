@@ -223,7 +223,7 @@
                             <i class="material-icons">lock_outline</i>
                           </span>
                         </div>
-                        <input type="password" placeholder="Password..." class="form-control" name="password" required />
+                        <input type="password" placeholder="Password..." class="form-control" name="password" required id="password" />
                       </div>
                     </div> 
 					  <div class="form-group">
@@ -233,9 +233,14 @@
                             <i class="material-icons">lock_outline</i>
                           </span>
                         </div>
-                        <input type="password" placeholder="Confirm Password..." class="form-control" name="password_confirm" required />
+                        <input type="password" placeholder="Confirm Password..." class="form-control" name="password_confirm" required id="confirm_password" />
                       </div>
                     </div>
+					  <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+					 <span class="input-group-text text-danger text-center" id="check"></span>
+						  </div></div></div>
                     <div class="form-check">
                       <label class="form-check-label">
                         <input class="form-check-input" type="checkbox" value="" required>
@@ -338,13 +343,17 @@
   <script src="./static/assets/js/material-kit.js?v=2.2.0" type="text/javascript"></script>
 	<script type="text/javascript">
 	var password = document.getElementById("password")
-  , confirm_password = document.getElementById("confirm_password");
+  , confirm_password = document.getElementById("confirm_password") ;
+		
 
 function validatePassword(){
   if(password.value != confirm_password.value) {
     confirm_password.setCustomValidity("Passwords Don't Match");
+	   document.getElementById("check").innerHTML = "Passwords Dont Match.";
+	  
   } else {
     confirm_password.setCustomValidity('');
+	   document.getElementById("check").innerHTML = "";
   }
 }
 
