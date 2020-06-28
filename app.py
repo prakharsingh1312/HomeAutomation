@@ -1,7 +1,8 @@
-from flask import Flask , render_template
+from flask import Flask , render_template , request , session , redirect , url_for
+from passlib.hash import sha256_crypt
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-
+app.secret_key = 'popatpanda'
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
@@ -35,14 +36,14 @@ class BudgetTypes(db.Model):
 	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 
-	budget_types=db.relationship('Budget' , backref='owner')
+	budget_types=db.relationship('Budget' , backref='budget_type')
 
 class BudgetPaymentMethod(db.Model):
 	__tablename__='budget_payment_method'
 	id=db.Column('id', db.Integer , primary_key=True)
 	name=db.Column('name',db.String(100),unique=True)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
-	payment=db.relationship('Budget' , backref='owner')
+	payment=db.relationship('Budget' , backref='budget_meth')
 
 
 
@@ -51,7 +52,7 @@ class UserTable(db.Model):
 	id=db.Column('id' , db.Integer , primary_key=True)
 	name=db.Column('name' , db.String(100))
 	password=db.Column('password' , db.String(100))
-	email=db.Column('email' , db.String(100))
+	email=db.Column('email' , db.String(100) , unique=True)
 	appliances=db.relationship('Appliances', backref='owner')
 	budgets=db.relationship('Budget', backref='owner')
 	budget_types=db.relationship('BudgetTypes', backref='owner')
@@ -93,6 +94,18 @@ class AutomationParameter(db.Model):
 # db.create_all()
 # db.drop_all()
 #######################
+#Functions
+def signup(name,password,email):
+	
+	if(UserTable.query.filter_by(email=email).count()):
+		return 0
+	user=UserTable(name = name , password = password , email = email)
+	db.session.add(user)
+	db.session.commit()
+	return 1
+def crypt_password(password):
+	return sha256_crypt.encrypt(password)
+
 ####################
 
 #ROUTES
@@ -104,13 +117,20 @@ def home():
 # Login Page
 
 @app.route("/login")
-def login():
+def login_page():
 	return render_template('login-page.html')
 
 # END of login
 
 # Signup Page
-@app.route("/signup")
-def signup():
+@app.route("/signup" , methods=['GET' , 'POST'])
+def signup_page():
+	if request.method == 'POST':
+		name = request.form['name']
+		password = request.form['password']
+		email = request.form['email']
+		password = crypt_password(password)
+		if signup(name,password,email):
+			return redirect(url_for('login_page'))
 	return render_template('signup-page.html')
 # END of Signup Page
