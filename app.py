@@ -115,21 +115,32 @@ def login(email , password):
 		user=UserTable.query.filter_by(email=email).first()
 		password=crypt_password(password)
 		if(user.password==password):
+			session['user_id']=user.id
+			session['user_name']=user.name
 			return 1
 	return 0
+def logout():
+	session.pop('user_id',None)
+	session.pop('user_name',None)
+	return 1
+
 ####################
 
 #ROUTES
 # Home Page
 @app.route("/")
 def dashboard_page():
+	if 'user_id' not in session:
+		return redirect(url_for('login_page'))
 	return render_template('index.html')
 # END of Home Page
 # Login Page
 
 @app.route("/login" , methods=['GET' , 'POST'])
 def login_page():
-	if request.method == 'POST':
+	if 'user_id' in session:
+		return redirect(url_for('dashboard_page'))
+	elif request.method == 'POST':
 		email=request.form['email']
 		password=request.form['password']
 		if login(email , password):
@@ -141,7 +152,9 @@ def login_page():
 # Signup Page
 @app.route("/signup" , methods=['GET' , 'POST'])
 def signup_page():
-	if request.method == 'POST':
+	if 'user_id' in session:
+		return redirect(url_for('dashboard_page'))
+	elif request.method == 'POST':
 		name = request.form['name']
 		password = request.form['password']
 		email = request.form['email']
@@ -150,3 +163,10 @@ def signup_page():
 			return redirect(url_for('login_page'))
 	return render_template('signup-page.html')
 # END of Signup Page
+#Logout Route
+@app.route("/logout")
+def logout_page():
+	if(logout()):
+		return redirect(url_for('login_page'))
+	return redirect(url_for('dashboard_page'))
+#END of Logout Page
