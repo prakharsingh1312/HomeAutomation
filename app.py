@@ -11,8 +11,9 @@ db=SQLAlchemy(app)
 class Appliances(db.Model):
 	__tablename__='appliances'
 	id=db.Column('id', db.Integer , primary_key=True)
-	name=db.Column('name' , db.String(100) , unique=True)
+	name=db.Column('name' , db.String(100))
 	state=db.Column('state' , db.Integer)
+	pin_number=db.Column('pin_number' , db.Integer)
 	user_id=db.Column('user_id',db.Integer,db.ForeignKey('user.id'))
 
 class Budget(db.Model):

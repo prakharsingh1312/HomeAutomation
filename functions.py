@@ -50,7 +50,8 @@ def update_user_profile(name , email , password):
 	return 0
 
 def password_change(password , new_password):
-	user=db.UserTable.query.filter_by(id=session['user_id'])
+	user=UserTable.query.filter_by(id=session['user_id']).first()
+	password=crypt_password(password)
 	if user.password == password:
 		user.password=crypt_password(new_password)
 		db.session.commit()
