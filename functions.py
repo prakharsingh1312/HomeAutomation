@@ -26,7 +26,7 @@ def login(email , password):
 			session['user_name']=user.name
 			return 1
 	return 0
-	
+
 def logout():
 	session.pop('user_id',None)
 	session.pop('user_name',None)
@@ -36,3 +36,15 @@ def get_user_details():
 	user_id=session['user_id']
 	user=UserTable.query.filter_by(id=user_id).first()
 	return user
+
+def update_user_profile(name , email , password):
+	user_id=session['user_id']
+	user=UserTable.query.filter_by(id=user_id).first()
+	password=crypt_password(password)
+	if(user.password==password):
+		session['user_name']=name
+		user.name=name
+		user.email=email
+		db.session.commit()
+		return 1
+	return 0

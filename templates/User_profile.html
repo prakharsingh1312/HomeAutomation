@@ -10,7 +10,7 @@
                   <p class="card-category">Complete your profile</p>
                 </div>
                 <div class="card-body">
-                  <form>
+                  <form action="" method='POST'>
                     <div class="row">
                       <!-- <div class="col-md-5">
                         <div class="form-group">
@@ -21,13 +21,13 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">Username</label>
-                          <input type="text" class="form-control" value = {{user.name}}>
+                          <input type="text" name='user' class="form-control" value = "{{user.name}}">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label class="bmd-label-floating">Email address</label>
-                          <input type="email" class="form-control" value = {{user.email}}>
+                          <input type="email" name='email' class="form-control" value = {{user.email}}>
                         </div>
                       </div>
                     </div>
@@ -76,10 +76,9 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label>About Me</label>
+                          <label>Password</label>
                           <div class="form-group">
-                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                            <textarea class="form-control" rows="5"></textarea>
+                            <input type='password' required name='password' class="form-control"></input>
                           </div>
                         </div>
                       </div>
