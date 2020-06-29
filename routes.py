@@ -104,21 +104,21 @@ def user_page():
 			else:
 				msg='Invalid Password'
 				flash(msg,'danger')
-			
-		
+
+
 	user=get_user_details()
 	return render_template('User_profile.html' , page='User Profile' , user=user)
 
 @app.route("/verify")
 def verify_page():
 	session['login']=5
-	if verify in request.args:
+	if 'verify' in request.args:
 		token=request.args['token']
 		user_hash=request.args['hash']
 		if verify(token,user_hash):
 			session['login']=4
 	return redirect(url_for('.login_page'))
-		
+
 @app.route("/temp")
 def temp_page():
 	return render_template('2.html')
