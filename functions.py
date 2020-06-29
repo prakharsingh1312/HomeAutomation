@@ -38,8 +38,9 @@ def get_user_details():
 	return user
 
 def update_user_profile(name , email):
-	user_id=session.['user_id']
+	user_id=session['user_id']
 	user=UserTable.query.filter_by(id=user_id).first()
+	session['user_name']=name
 	user.name=name
 	user.email=email
 	db.session.commit()
