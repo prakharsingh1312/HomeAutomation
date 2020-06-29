@@ -9,37 +9,37 @@
         </a></div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
+          <li  {% if page == 'Dashboard' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="./">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./user">
+          <li {% if page == 'User Profile' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="./user" >
               <i class="material-icons">person</i>
               <p>User Profile</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li {% if page == 'Appliances' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="./appliances">
               <i class="material-icons">settings_power</i>
               <p>Appliances</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li {% if page == 'Alarms & Reminders' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="./alarms">
               <i class="material-icons">access_alarms</i>
               <p>Alarms &amp; Reminders</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li {% if page == 'Expenses' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="./expenses">
               <i class="material-icons">attach_money</i>
               <p>Expenses</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li {% if page == 'Automation' %} class="nav-item active"  {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="./automation">
               <i class="material-icons">android</i>
               <p>Automation</p>
