@@ -172,3 +172,23 @@ def logout_page():
 		return redirect(url_for('login_page'))
 	return redirect(url_for('dashboard_page'))
 #END of Logout Page
+
+@app.route("/automation")
+def automation():
+	return render_template('automation.html' , page='Automation')
+
+@app.route("/expenses")
+def automation():
+	return render_template('expenses.html' , page='Expenses')
+
+@app.route("/alarms")
+def automation():
+	return render_template('alarms.html' , page='Alarms & Reminder')
+
+@app.route("/appliances")
+def automation():
+	return render_template('appliances.html' , page='Appliances')
+
+@app.route("/user_profile")
+def automation():
+	return render_template('User_profile.html' , page='User Profile')
