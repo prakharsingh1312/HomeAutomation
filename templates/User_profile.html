@@ -21,13 +21,13 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label class="bmd-label-floating">Username</label>
-                          <input type="text" name='user' class="form-control" value = "{{user.name}}">
+                          <input type="text" name='user' class="form-control" value = "{{user.name}}" required>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label class="bmd-label-floating">Email address</label>
-                          <input type="email" name='email' class="form-control" value = {{user.email}}>
+                          <input type="email" name='email' class="form-control" value = {{user.email}} required>
                         </div>
                       </div>
                     </div>
@@ -91,21 +91,72 @@
             </div>
             <div class="col-md-4">
               <div class="card card-profile">
+<!--
                 <div class="card-avatar">
                   <a href="#pablo">
                     <img class="img" src="./static/assets/img/faces/marc.jpg" />
                   </a>
                 </div>
+-->
                 <div class="card-body">
                   <h6 class="card-category"></h6>
-                  <h4 class="card-title">{{ session['user_name' ]}}</h4>
+                  <h4 class="card-title">Change Password</h4>
                   <p class="card-description">
-                    {{ user.email }}
+                    
                   </p>
-                  <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
+					
+                  <form action="" method='POST'>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="">Old Password</label>
+                          <input type="password" name='old_password' class="form-control" required>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="">New Password</label>
+                          <input type="password" name='new_password' id="new_password" class="form-control" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          
+                          <div class="form-group">
+							  <label>Confirm Password</label>
+                            <input type='password' required name='confirm_password' id="confirm_password" class="form-control"></input>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+					<span id="check"></span>
+                    <button type="submit" class="btn btn-primary pull-right" name='submit' value='update_pass'>Change Password</button>
+                    <div class="clearfix"></div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
 {% endblock %}
+{% block Scripts %}
+<script type="text/javascript">
+	var password = document.getElementById("new_password")
+  , confirm_password = document.getElementById("confirm_password") ;
+		
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+	   document.getElementById("check").innerHTML = "Passwords Dont Match.";
+	  
+  } else {
+    confirm_password.setCustomValidity('');
+	   document.getElementById("check").innerHTML = "";
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;</script>{% endblock %}

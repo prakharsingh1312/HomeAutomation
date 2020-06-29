@@ -89,7 +89,14 @@ def user_page():
 				msg='Invalid Password'
 				flash(msg,'danger')
 		elif request.form['submit'] == 'update_pass':
-			print("jdewd")
+			password=request.form['old_password'];
+			new_password=request.form['new_password']
+			if password_change(password,new_password):
+				msg='Password Updated Successfully'
+				flash(msg,'success')
+			else:
+				msg='Invalid Password'
+				flash(msg,'danger')
 			
 		
 	user=get_user_details()
