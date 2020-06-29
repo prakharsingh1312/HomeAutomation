@@ -72,9 +72,13 @@ def appliances_page():
 		return redirect(url_for('login_page'))
 	return render_template('appliances.html' , page='Appliances')
 
-@app.route("/user")
+@app.route("/user" , methods=['GET' , 'POST'])
 def user_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
+	elif request.method == 'POST':
+		user_name=request.form['user']
+		user_email=request.form['email']
+		update_user_profile(user_name,user_email)
 	user=get_user_details()
 	return render_template('User_profile.html' , page='User Profile' , user=user)
