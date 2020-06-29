@@ -1,5 +1,6 @@
 from flask import Flask , render_template , request , session , redirect , url_for,flash
 import hashlib
+import random
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = 'popatpanda'
@@ -52,6 +53,8 @@ class UserTable(db.Model):
 	name=db.Column('name' , db.String(100))
 	password=db.Column('password' , db.String(100))
 	email=db.Column('email' , db.String(100) , unique=True)
+	user_hash=db.Column('hash' , db.String(100))
+	user_activated=db.Column('activated' ,db.Integer, default=0)
 	appliances=db.relationship('Appliances', backref='owner')
 	budgets=db.relationship('Budget', backref='owner')
 	budget_types=db.relationship('BudgetTypes', backref='owner')
@@ -90,8 +93,8 @@ class AutomationParameter(db.Model):
 	parameter=db.relationship('Automation' , backref='owner')
 
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
-# db.create_all()
-# db.drop_all()
+#db.create_all()
+#db.drop_all()
 #######################
 
 ####################

@@ -14,14 +14,20 @@ def dashboard_page():
 
 @app.route("/login" , methods=['GET' , 'POST'])
 def login_page():
-	if 'user_id' in session:
+	err=0;
+	dologin = -1
+	if 'login' in session:
+		dologin=session['login']
+		session.pop('login',None)
+	elif 'user_id' in session:
 		return redirect(url_for('dashboard_page'))
 	elif request.method == 'POST':
 		email=request.form['email']
 		password=request.form['password']
-		if login(email , password):
+		dologin = login(email , password)
+		if dologin == 1:
 			return redirect(url_for('dashboard_page'))
-	return render_template('login-page.html')
+	return render_template('login-page.html',login=dologin)
 
 # END of login
 
@@ -36,7 +42,8 @@ def signup_page():
 		email = request.form['email']
 		password = crypt_password(password)
 		if signup(name,password,email):
-			return redirect(url_for('login_page'))
+			session['login']=3
+			return redirect(url_for('.login_page'))
 	return render_template('signup-page.html')
 # END of Signup Page
 
@@ -101,3 +108,6 @@ def user_page():
 		
 	user=get_user_details()
 	return render_template('User_profile.html' , page='User Profile' , user=user)
+@app.route("/temp")
+def temp_page():
+	return render_template('2.html')

@@ -149,7 +149,45 @@
     </div>
   </nav> -->
   <div class="page-header header-filter" style="background-image: url('./static/assets/img/bg7.jpg'); background-size: cover; background-position: top center;">
-    <div class="container">
+    	
+	  <div class="container">
+	{% if login == 3 %}
+		 <div class="alert alert-info">
+        <div class="container2">
+          <div class="alert-icon">
+            <i class="material-icons">info_outline</i>
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+          </button>
+           We've Sent a verification mail on your email. Please verify it to continue
+        </div>
+      </div>
+		{% elif login == 2 %}
+		 <div class="alert alert-warning">
+        <div class="container2">
+          <div class="alert-icon">
+            <i class="material-icons">warning</i>
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+          </button>
+           Hey, it looks like you still haven't registered on our website. Please SignUp to continue.
+        </div>
+      </div>
+		{% elif login == 0 %}
+		<div class="alert alert-danger">
+  <div class="container2">
+          <div class="alert-icon">
+            <i class="material-icons">error_outline</i>
+     </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+          </button>
+           The  password you've entered is incorrect.
+        </div>
+      </div>
+		{% endif %}
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
           <form class="form" method="POST" action="">
