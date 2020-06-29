@@ -134,6 +134,7 @@ def dashboard_page():
 		return redirect(url_for('login_page'))
 	return render_template('index.html')
 # END of Home Page
+
 # Login Page
 
 @app.route("/login" , methods=['GET' , 'POST'])
@@ -163,6 +164,7 @@ def signup_page():
 			return redirect(url_for('login_page'))
 	return render_template('signup-page.html')
 # END of Signup Page
+
 #Logout Route
 @app.route("/logout")
 def logout_page():
