@@ -1,10 +1,9 @@
 from flask import Flask , render_template , request , session , redirect , url_for
 import hashlib
 from flask_sqlalchemy import SQLAlchemy
+import functions
 app = Flask(__name__)
 app.secret_key = 'popatpanda'
-
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
 
@@ -94,37 +93,9 @@ class AutomationParameter(db.Model):
 # db.create_all()
 # db.drop_all()
 #######################
-#Functions
-def signup(name,password,email):
-
-	if(UserTable.query.filter_by(email=email).count()):
-		return 0
-	user=UserTable(name = name , password = password , email = email)
-	db.session.add(user)
-	db.session.commit()
-	return 1
-
-def crypt_password(password):
-	salt='maakichoot'
-	password=password+salt
-	password=hashlib.md5(password.encode())
-	return password.hexdigest()
-
-def login(email , password):
-	if(UserTable.query.filter_by(email=email).count()):
-		user=UserTable.query.filter_by(email=email).first()
-		password=crypt_password(password)
-		if(user.password==password):
-			session['user_id']=user.id
-			session['user_name']=user.name
-			return 1
-	return 0
-def logout():
-	session.pop('user_id',None)
-	session.pop('user_name',None)
-	return 1
 
 ####################
+
 
 #ROUTES
 # Home Page
@@ -132,7 +103,7 @@ def logout():
 def dashboard_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
-	return render_template('index.html')
+	return render_template('index.html' , page='Dashboard')
 # END of Home Page
 
 # Login Page
@@ -174,21 +145,21 @@ def logout_page():
 #END of Logout Page
 
 @app.route("/automation")
-def automation():
+def automation_page():
 	return render_template('automation.html' , page='Automation')
 
 @app.route("/expenses")
-def automation():
+def expenses_page():
 	return render_template('expenses.html' , page='Expenses')
 
 @app.route("/alarms")
-def automation():
-	return render_template('alarms.html' , page='Alarms & Reminder')
+def alarms_page():
+	return render_template('alarms.html' , page='Alarms & Reminders')
 
 @app.route("/appliances")
-def automation():
+def appliances_page():
 	return render_template('appliances.html' , page='Appliances')
 
-@app.route("/user_profile")
-def automation():
+@app.route("/user")
+def user_page():
 	return render_template('User_profile.html' , page='User Profile')
