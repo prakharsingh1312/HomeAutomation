@@ -37,10 +37,14 @@ def get_user_details():
 	user=UserTable.query.filter_by(id=user_id).first()
 	return user
 
-def update_user_profile(name , email):
+def update_user_profile(name , email , password):
 	user_id=session['user_id']
 	user=UserTable.query.filter_by(id=user_id).first()
-	session['user_name']=name
-	user.name=name
-	user.email=email
-	db.session.commit()
+	password=crypt_password(password)
+	if(user.password==password):
+		session['user_name']=name
+		user.name=name
+		user.email=email
+		db.session.commit()
+		return 1
+	return 0

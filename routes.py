@@ -77,8 +77,15 @@ def user_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
 	elif request.method == 'POST':
+		error=None
 		user_name=request.form['user']
 		user_email=request.form['email']
-		update_user_profile(user_name,user_email)
+		user_password=request.form['password']
+		if update_user_profile(user_name,user_email,user_password):
+			error='Profile Updated Successfully'
+			flash(error)
+		else:
+			error='Invalid Password'
+			flash(error)
 	user=get_user_details()
 	return render_template('User_profile.html' , page='User Profile' , user=user)
