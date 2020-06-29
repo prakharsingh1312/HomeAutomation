@@ -8,10 +8,17 @@ def signup(name,password,email):
 		return 0
 	user_hash = random.randint(0,1000)
 	user_hash=crypt_password(user_hash)
+	token=crypt_password(email)
+	reciever=[]
+	reciever.append(email)
 	user=UserTable(name = name , password = password , email = email , user_hash=user_hash)
-	db.session.add(user)
-	db.session.commit()
-	return 1
+	subject='Login | Verification'
+	message="You can login after you have verified your email address. Please click this link to verify you email address: http://3.6.235.34:5000/verify?token="+str(token)+"&hash="+str(user_hash)+"&verify"
+	if send_mail(message , reciever , subject):
+		db.session.add(user)
+		db.session.commit()
+		return 1
+	return 0
 
 def crypt_password(password):
 	salt='maakichoot'
@@ -63,3 +70,9 @@ def password_change(password , new_password):
 		db.session.commit()
 		return 1
 	return 0
+
+def send_mail(message , reciever , subject):
+	msg = Message(subject, recipients=reciever , sender = ['Ritik' , 'prakharsingh13@gmail.com'])
+	msg.body=message
+	mail.send(msg)
+	return 1

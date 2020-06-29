@@ -2,7 +2,16 @@ from flask import Flask , render_template , request , session , redirect , url_f
 import hashlib
 import random
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail , Message
 app = Flask(__name__)
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME = 'upadhayayupadhayay@gmail.com',
+    MAIL_PASSWORD = 'Azps#1913'
+)
+mail=Mail(app)
 app.secret_key = 'popatpanda'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
 db=SQLAlchemy(app)
