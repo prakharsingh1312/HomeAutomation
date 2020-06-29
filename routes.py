@@ -77,15 +77,20 @@ def user_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
 	elif request.method == 'POST':
-		error=None
-		user_name=request.form['user']
-		user_email=request.form['email']
-		user_password=request.form['password']
-		if update_user_profile(user_name,user_email,user_password):
-			error='Profile Updated Successfully'
-			flash(error)
-		else:
-			error='Invalid Password'
-			flash(error)
+		msg=None
+		if request.form['submit'] == 'update_profile':
+			user_name=request.form['user']
+			user_email=request.form['email']
+			user_password=request.form['password']
+			if update_user_profile(user_name,user_email,user_password):
+				msg='Profile Updated Successfully'
+				flash(msg,'success')
+			else:
+				msg='Invalid Password'
+				flash(msg,'danger')
+		elif request.form['submit'] == 'update_pass':
+			print("jdewd")
+			
+		
 	user=get_user_details()
 	return render_template('User_profile.html' , page='User Profile' , user=user)
