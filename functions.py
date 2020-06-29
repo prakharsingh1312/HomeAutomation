@@ -1,4 +1,7 @@
 # Login /Signup Functions
+from app import *
+
+
 def signup(name,password,email):
 
 	if(UserTable.query.filter_by(email=email).count()):
@@ -23,7 +26,13 @@ def login(email , password):
 			session['user_name']=user.name
 			return 1
 	return 0
+	
 def logout():
 	session.pop('user_id',None)
 	session.pop('user_name',None)
 	return 1
+
+def get_user_details():
+	user_id=session['user_id']
+	user=UserTable.query.filter_by(id=user_id).first()
+	return user
