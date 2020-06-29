@@ -76,3 +76,13 @@ def send_mail(message , reciever , subject):
 	msg.body=message
 	mail.send(msg)
 	return 1
+
+def verify(token, hash):
+	user=UserTable.query.filter_by(hash=hash).first()
+	user_email=crypt_password(user.email)
+	if token == user_email:
+		user.activated=1
+		user.hash=''
+		db.session.commit()
+		return 4
+	return 0
