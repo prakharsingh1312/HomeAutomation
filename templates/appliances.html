@@ -49,11 +49,12 @@
 
 
                   <td>
-                    {% if appliance.state==1 %}
-                    ON
-                    {% else %}
-                    OFF
-                    {% endif %}
+                    
+                     <label class="switch m5  ">
+      <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %}">
+      <small class="appliance_switch" onClick="toggle({{ appliance.id }});"></small>
+    </label>
+                    
                   </td>
                   <td>
                     Edit/Delete
@@ -121,4 +122,17 @@
 
 {% endblock %}
 
-{% block Scripts %}{% endblock %}
+{% block Scripts %}
+<script type="text/javascript">
+	function toggle(id){
+		$.post('/appliances',{id:id , submit:'toggle'} , function(data){
+		if(data==1){
+			console.log('State Changed');
+		}
+		else{
+			console.log(data);
+		}
+	});
+	}
+</script>
+{% endblock %}

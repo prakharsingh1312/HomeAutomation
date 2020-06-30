@@ -93,6 +93,9 @@ def appliances_page():
 			elif result==0:
 				msg='Pin Number is  already occupied. Please use a different pin.'
 				flash(msg,'danger')
+		elif request.values['submit'] == 'toggle':
+			appliance_id = request.values['id']
+			return toggle_appliance(appliance_id)
 	appliances=show_appliances()
 	count=appliances.count()
 	return render_template('appliances.html' , page='Appliances' , appliances=appliances, count=count)

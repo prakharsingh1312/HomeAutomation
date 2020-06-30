@@ -100,3 +100,11 @@ def add_appliance(name , state , pin_number):
 			return 1
 		return 2
 	return 0
+def toggle_appliance(appliance_id):
+	appliance=Appliances.query.filter_by(user_id = session['user_id'] , id=appliance_id)
+	if appliance.count():
+		appliance=appliance.first()
+		appliance.state=(appliance.state + 1) % 2
+		db.session.commit()
+		return '1'
+	return '0'
