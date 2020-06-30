@@ -125,6 +125,6 @@ def delete_appliance(id):
 	if Appliances.query.filter_by(user_id = session['user_id'] , id=id).count():
 		appliance=Appliances.query.filter_by(user_id = session['user_id'] , id=id).first()
 		db.session.delete(appliance)
-		db.commit()
+		db.session.commit()
 		return 1
 	return 0
