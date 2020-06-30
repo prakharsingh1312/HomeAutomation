@@ -78,7 +78,8 @@ def appliances_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
 	appliances=show_appliances()
-	return render_template('appliances.html' , page='Appliances' , appliances=appliances)
+	count=appliances.count()
+	return render_template('appliances.html' , page='Appliances' , appliances=appliances, count=count)
 
 @app.route("/user" , methods=['GET' , 'POST'])
 def user_page():
