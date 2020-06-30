@@ -90,8 +90,8 @@ def appliances_page():
 			elif result==2:
 				msg='Appliance with the same name already exists. Please use a different name.'
 				flash(msg,'danger')
-			elif result==0
-				msg='Pin Number is  already occupied. Please use a pin.'
+			elif result==0:
+				msg='Pin Number is  already occupied. Please use a different pin.'
 				flash(msg,'danger')
 	appliances=show_appliances()
 	count=appliances.count()

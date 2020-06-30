@@ -53,7 +53,7 @@
                     ON
                     {% else %}
                     OFF
-                  {% endif %}
+                    {% endif %}
                   </td>
                   <td>
                     Edit/Delete
@@ -69,6 +69,49 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">Add Appliance</h4>
+          <!-- <p class="card-category">Complete your profile</p> -->
+        </div>
+        <div class="card-body">
+          <form action="" method='POST'>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Appliance Name</label>
+                  <input type="text" name='name' class="form-control" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Pin Number</label>
+                  <input type="text" name='pin_number' class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label for="exampleFormControlSelect1">State</label>
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" id="exampleFormControlSelect1" name='state'>
+                    <option value=1>ON</option>
+                    <option value=0>OFF</option>
+                    <!-- <option>3</option>
+                      <option>4</option>
+                      <option>5</option> -->
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right" name='submit' value='add_appliance'>Add Appliance</button>
+            <div class="clearfix"></div>
+          </form>
         </div>
       </div>
     </div>
