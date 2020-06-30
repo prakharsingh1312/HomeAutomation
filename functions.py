@@ -86,3 +86,7 @@ def verify(token, hash):
 		db.session.commit()
 		return 4
 	return 0
+def show_appliances():
+	user_id=session['user_id']
+	appliances=Appliances.query.filter_by(user_id=user_id)
+	return appliances
