@@ -49,12 +49,12 @@
 
 
                   <td>
-                    
+
                      <label class="switch m5  ">
       <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %} id="state{{appliance.id}}">
       <small class="appliance_switch" onClick="toggle({{ appliance.id }});"></small>
     </label>
-                    
+
                   </td>
                   <td>
                     <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();">Edit</a>/Delete
@@ -110,7 +110,7 @@
                 </div>
               </div>
             </div>
-			  <input type="hidden" id="appliance_id" />
+			  <input type="hidden" id="appliance_id" name='id'/>
             <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Appliance</button>
             <div class="clearfix"></div>
           </form>

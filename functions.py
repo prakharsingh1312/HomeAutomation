@@ -108,3 +108,15 @@ def toggle_appliance(appliance_id):
 		db.session.commit()
 		return '1'
 	return '0'
+
+def update_appliance(id , name , pin , state):
+	if not Appliances.query.filter(Appliances.user_id == session['user_id'] , Appliances.pin_number == pin, Appliances.id != id).count():
+		if not Appliances.query.filter(Appliances.user_id == session['user_id'] , Appliances.name == name , Appliances.id != id).count():
+			appliance=Appliances.query.filter_by(id=id).first()
+			appliance.name=name
+			appliance.pin_number=pin
+			appliance.state=state
+			db.session.commit()
+			return 1
+		return 2
+	return 0

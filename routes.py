@@ -96,6 +96,21 @@ def appliances_page():
 		elif request.values['submit'] == 'toggle':
 			appliance_id = request.values['id']
 			return toggle_appliance(appliance_id)
+		elif request.values['submit'] == 'edit_appliance':
+			id=request.form['id']
+			name=request.form['name']
+			pin_number=request.form['pin_number']
+			state=request.form['state']
+			result=update_appliance(id , name , pin_number , state)
+			if result==1:
+				msg='Appliance edited successfully.'
+				flash(msg,'success')
+			elif result==2:
+				msg='Appliance with the same name already exists. Please use a different name.'
+				flash(msg,'danger')
+			elif result==0:
+				msg='Pin Number is  already occupied. Please use a different pin.'
+				flash(msg,'danger')
 	appliances=show_appliances()
 	count=appliances.count()
 	return render_template('appliances.html' , page='Appliances' , appliances=appliances, count=count)
