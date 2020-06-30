@@ -111,6 +111,15 @@ def appliances_page():
 			elif result==0:
 				msg='Pin Number is  already occupied. Please use a different pin.'
 				flash(msg,'danger')
+		elif request.values['submit'] == 'delete_appliance':
+			id = request.form['id']
+			result = delete_appliance(id)
+			if result == 1:
+				msg='Appliance is deleted from the list.'
+				flash(msg,'success')
+			elif reult == 0:
+				msg='Cannot delete the appliance.'
+				flash(msg,'danger')
 	appliances=show_appliances()
 	count=appliances.count()
 	return render_template('appliances.html' , page='Appliances' , appliances=appliances, count=count)
