@@ -83,11 +83,15 @@ def appliances_page():
 			name = request.form['name']
 			pin_number = request.form['pin_number']
 			state = request.form['state']
-			if add_appliance(name , state , pin_number):
+			result=add_appliance(name , state , pin_number)
+			if result==1:
 				msg='Appliance added successfully.'
 				flash(msg,'success')
-			else:
+			elif result==2:
 				msg='Appliance with the same name already exists. Please use a different name.'
+				flash(msg,'danger')
+			elif result==0
+				msg='Pin Number is  already occupied. Please use a pin.'
 				flash(msg,'danger')
 	appliances=show_appliances()
 	count=appliances.count()
