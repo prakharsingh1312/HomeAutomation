@@ -77,7 +77,8 @@ def alarms_page():
 def appliances_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
-	return render_template('appliances.html' , page='Appliances')
+	appliances=show_appliances()
+	return render_template('appliances.html' , page='Appliances' , appliances=appliances)
 
 @app.route("/user" , methods=['GET' , 'POST'])
 def user_page():
