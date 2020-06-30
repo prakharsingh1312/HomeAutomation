@@ -78,11 +78,11 @@ def send_mail(message , reciever , subject):
 	return 1
 
 def verify(token, hash):
-	user=UserTable.query.filter_by(hash=hash).first()
+	user=UserTable.query.filter_by(user_hash=hash).first()
 	user_email=crypt_password(user.email)
 	if token == user_email:
-		user.activated=1
-		user.hash=''
+		user.user_activated=1
+		user.user_hash=''
 		db.session.commit()
 		return 4
 	return 0
