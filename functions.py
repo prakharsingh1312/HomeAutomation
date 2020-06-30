@@ -90,3 +90,11 @@ def show_appliances():
 	user_id=session['user_id']
 	appliances=Appliances.query.filter_by(user_id=user_id)
 	return appliances
+def add_appliance(name , state , pin_number):
+	if not Appliance.query.filter_by(user_id = session['user_id'] , name = name).count():
+		user=UserTable.query.filter_by(id=session['user_id']).first()
+		appliance=Appliance(name=name , state=state , pin_number=pin_number , owner = user)
+		db.session.add(appliance)
+		db.session.commit()
+		return 1
+	return 0

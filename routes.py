@@ -73,10 +73,22 @@ def alarms_page():
 		return redirect(url_for('login_page'))
 	return render_template('alarms.html' , page='Alarms & Reminders')
 
-@app.route("/appliances")
+@app.route("/appliances" , methods=['GET' , 'POST'])
 def appliances_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
+	elif request.method == 'POST':
+		msg=None
+		if request.form['submit'] == 'add_appliance':
+			name = request.form['name']
+			pin_number = request.form['pin_number']
+			state = request.form['state']
+			if add_appliance(name , state , pin_number):
+				msg='Appliance added successfully.'
+				flash(msg,'success')
+			else:
+				msg='Appliance with the same name already exists. Please use a different name.'
+				flash(msg,'danger')
 	appliances=show_appliances()
 	count=appliances.count()
 	return render_template('appliances.html' , page='Appliances' , appliances=appliances, count=count)
