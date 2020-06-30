@@ -51,13 +51,13 @@
                   <td>
                     
                      <label class="switch m5  ">
-      <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %}">
+      <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %} id="state{{appliance.id}}">
       <small class="appliance_switch" onClick="toggle({{ appliance.id }});"></small>
     </label>
                     
                   </td>
                   <td>
-                    Edit/Delete
+                    <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();">Edit</a>/Delete
                   </td>
                 </tr>
                 {% set i=i+1 %}
@@ -77,7 +77,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header card-header-primary">
-          <h4 class="card-title">Add Appliance</h4>
+          <h4 class="card-title" id="appliance_title">Add Appliance</h4>
           <!-- <p class="card-category">Complete your profile</p> -->
         </div>
         <div class="card-body">
@@ -86,13 +86,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="bmd-label-floating">Appliance Name</label>
-                  <input type="text" name='name' class="form-control" required>
+                  <input type="text" name='name' class="form-control" id="name" required>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="bmd-label-floating">Pin Number</label>
-                  <input type="text" name='pin_number' class="form-control" required>
+                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@
               <div class="col-md-2">
                 <label for="exampleFormControlSelect1">State</label>
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" id="exampleFormControlSelect1" name='state'>
+                  <select class="form-control selectpicker" data-style="btn btn-link" id="state" name='state'>
                     <option value=1>ON</option>
                     <option value=0>OFF</option>
                     <!-- <option>3</option>
@@ -110,7 +110,8 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary pull-right" name='submit' value='add_appliance'>Add Appliance</button>
+			  <input type="hidden" id="appliance_id" />
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Appliance</button>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -133,6 +134,21 @@
 			console.log(data);
 		}
 	});
+	}
+	function edit_appliance(id,name,pin){
+		$('#appliance_id').val(id);
+		$('#name').val(name);
+		$('#name').focus()
+		$('#pin_number').val(pin);
+		var state;
+		if($('#state'+id+':checkbox:checked').length > 0)
+		 	state = 1;
+		else
+			state = 0;
+		$('.selectpicker').selectpicker('val', state);
+		$('#appliance_title').html('Edit Appliance');
+		$('#submit').html('Edit Appliance');
+		$('#submit').val('edit_appliance');
 	}
 </script>
 {% endblock %}
