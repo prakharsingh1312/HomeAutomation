@@ -1,4 +1,74 @@
 {% extends 'base.html' %}
 {% block Sidebar %}{% include 'side-bar.html' %}{% endblock %}
-{% block Content %}{% endblock %}
+
+{% block Content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title ">Simple Table</h4>
+          <p class="card-category"> Here is a subtitle for this table</p>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class=" text-primary">
+                <th>
+                  ID
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  PIN Number
+                </th>
+                <th>
+                  State
+                </th>
+                <th>
+                  Options
+                </th>
+              </thead>
+              <tbody>
+                {% set i = 1 %}
+                {% for appliance in appliances %}
+                <tr>
+                  <td>
+                    {{i}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {{appliance.name}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {{appliance.pin_number}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {{appliance.state}}
+                  </td>
+                  <td>
+                    Edit/Delete
+                  </td>
+                </tr>
+
+                {% set i=i+1 %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
 {% block Scripts %}{% endblock %}
