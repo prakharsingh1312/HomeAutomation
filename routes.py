@@ -72,15 +72,67 @@ def alarms_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
 	elif request.form == 'POST':
-		type=request.form['type']
-		description=request.form['description']
-		frequency=request.form['frequency']
-		time=request.form['time']
-		day=request.form['day']
-		alarms = show_alarms()
-		reminders = show_reminders()
-		count_alarms = alarms.count()
-		count_reminders = reminders.count()
+		msg = None
+		if request.form['submit'] == 'add_alarm':
+			type=request.form['type']
+			description=request.form['description']
+			frequency=request.form['frequency']
+			time=request.form['time']
+			day=request.form['day']
+			flag = add_alerts(type , description , time , day)
+			if flag == 1:
+				msg='Alarm has been added successfully.'
+				flash(msg,'success')
+			else:
+				msg='Alarm was not added.'
+				flash(msg,'danger')
+		elif request.values['submit'] == 'add_reminder':
+			type=request.form['type']
+			description=request.form['description']
+			frequency=request.form['frequency']
+			time=request.form['time']
+			day=request.form['day']
+			flag = add_alerts(type , description , frequency , time , day)
+			if flag == 2:
+				msg='Reminder has been added successfully.'
+				flash(msg,'success')
+			else:
+				msg='Cannot add Reminder.'
+				flash(msg,'danger')
+		elif request.values['submit'] == 'update_alarm':
+			type=request.form['type']
+			description=request.form['description']
+			frequency=request.form['frequency']
+			time=request.form['time']
+			day=request.form['day']
+			flag = add_alerts(type , description , time , day , id)
+			if flag == 3:
+				msg='Alarm has been updated successfully.'
+				flash(msg,'success')
+			else:
+				msg='Cannot update alarm.'
+				flash(msg,'danger')
+		elif request.values['submit'] == 'update_reminder':
+			type=request.form['type']
+			description=request.form['description']
+			frequency=request.form['frequency']
+			time=request.form['time']
+			day=request.form['day']
+			flag = add_alerts(type , description , time , day , id)
+			if flag == 4:
+				msg='Reminder has been updated successfully.'
+				flash(msg,'success')
+			else:
+				msg='Cannot update reminder.'
+				flash(msg,'reminder')
+		elif request.values['submit'] == 'toggle':
+			alert_id = request.values['id']
+			return toggle_appliance(appliance_id)
+
+	alarms = show_alarms()
+	reminders = show_reminders()
+	count_alarms = alarms.count()
+	count_reminders = reminders.count()
 	return render_template('alarms.html' , page='Alarms & Reminders' , alarms=alarms , reminders=reminders , count_alarms = count_alarms , count_reminders = count_reminders)
 
 @app.route("/appliances" , methods=['GET' , 'POST'])
