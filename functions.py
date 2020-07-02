@@ -184,9 +184,9 @@ def delete_alert(id):
 	return 0
 
 def toggle_alert(alert_id):
-	alert=ReminderAlarm.query.filter_by(user_id = session['user_id'] , id=id)
+	alert=ReminderAlarm.query.filter_by(user_id = session['user_id'] , id=alert_id)
 	if alert.count():
-		alert=appliance.first()
+		alert=alert.first()
 		alert.state=(alert.state + 1) % 2
 		db.session.commit()
 		return '1'

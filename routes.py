@@ -71,7 +71,7 @@ def expenses_page():
 def alarms_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
-	elif request.form == 'POST':
+	elif request.method == 'POST':
 		msg = None
 		if request.form['submit'] == 'add_alarm':
 			type=request.form['type']
@@ -127,7 +127,7 @@ def alarms_page():
 				flash(msg,'reminder')
 		elif request.values['submit'] == 'toggle':
 			alert_id = request.values['id']
-			return toggle_appliance(appliance_id)
+			return toggle_alert(alert_id)
 
 	alarms = show_alarms()
 	reminders = show_reminders()
