@@ -6,22 +6,25 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header card-header-primary">
-          <h4 class="card-title ">Appliances Table</h4>
-          <p class="card-category"> Your appliances are listed here.</p>
+          <h4 class="card-title ">Alarms</h4>
+          <p class="card-category"> Your alarms are listed here.</p>
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            {% if count > 0 %}
+            {% if count_alarms > 0 %}
             <table class="table table-hover">
               <thead class=" text-primary">
                 <th>
                   ID
                 </th>
-                <th>
+				  <th>
                   Name
                 </th>
                 <th>
-                  PIN Number
+                  Time
+                </th>
+                <th>
+                  Days
                 </th>
                 <th>
                   State
@@ -32,35 +35,115 @@
               </thead>
               <tbody>
 
-                {% set i = 1 %}
-                {% for appliance in appliances %}
+                
+                {% for alarm in alarms %}
                 <tr>
                   <td>
-                    {{i}}
+                   {{loop.index}}
                   </td>
 
                   <td>
-                    {{appliance.name}}
+                    {{alarm.description}}
                   </td>
                   <td>
-                    {{appliance.pin_number}}
+                    {{alarm.time}}
+                  </td>
+					<td>
+                    {{alarm.frequency}}
+                  </td>
+
+
+                  <td>
+				
+                     <label class="switch m5  ">
+      <input type="checkbox" class="" {% if alarm.state==1 %} checked {% endif %} id="state{{alarm.id}}">
+      <small class="alarm_switch" onClick="toggle({{ alarm.id }});"></small>
+    </label>
+
+                  </td>
+                  <td>
+                    <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , {{alarm.time}});event.preventDefault();">Edit</a>/
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><a href="" onClick="$('form#form{{alarm.id}}').submit();event.preventDefault();">Delete</a></form>
+                  </td>
+                </tr>
+                
+                {% endfor %}
+                {% else %}
+                <p>
+                  Nothing to show.
+                </p>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> 
+	  
+	  <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title ">Reminders</h4>
+          <p class="card-category"> Your reminders are listed here.</p>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            {% if count_reminders > 0 %}
+            <table class="table table-hover">
+              <thead class=" text-primary">
+                <th>
+                  ID
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                  Time
+                </th>
+                <th>
+                  Date
+                </th>
+				  <th>
+                  State
+                </th>
+                <th>
+                  Options
+                </th>
+              </thead>
+              <tbody>
+
+      
+                {% for reminder in reminders %}
+                <tr>
+                  <td>
+                    {{loop.index}}
+                  </td>
+
+                  <td>
+                    {{reminder.description}}
+                  </td>
+                  <td>
+                    {{reminder.time}}
+                  </td>
+					<td>
+                    {{reminder.day}}
                   </td>
 
 
                   <td>
 
                      <label class="switch m5  ">
-      <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %} id="state{{appliance.id}}">
-      <small class="appliance_switch" onClick="toggle({{ appliance.id }});"></small>
+      <input type="checkbox" class="" {% if reminder.state==1 %} checked {% endif %} id="state{{reminder.id}}">
+      <small class="reminder_switch" onClick="toggle({{ reminder.id }});"></small>
     </label>
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();">Edit</a>/
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{appliance.id}}" style="display: inline-block"><input type="hidden" value="{{appliance.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><a href="" onClick="$('form#form{{appliance.id}}').submit();event.preventDefault();">Delete</a></form>
+                    <a href="#" onClick="edit_alarm({{reminder.id}} , '{{reminder.name}}' , {{reminder.pin_number}});event.preventDefault();">Edit</a>/
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alarm" name="submit" /><a href="" onClick="$('form#form{{reminder.id}}').submit();event.preventDefault();">Delete</a></form>
                   </td>
                 </tr>
-                {% set i=i+1 %}
+         
                 {% endfor %}
                 {% else %}
                 <p>
@@ -77,7 +160,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header card-header-primary">
-          <h4 class="card-title" id="appliance_title">Add Appliance</h4>
+          <h4 class="card-title" id="appliance_title">Add Alarm</h4>
           <!-- <p class="card-category">Complete your profile</p> -->
         </div>
         <div class="card-body">

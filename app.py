@@ -74,14 +74,15 @@ class UserTable(db.Model):
 
 
 class ReminderAlarm(db.Model):
-    __tablename__='ReminderAlarm'
-    id=db.Column('id' , db.Integer, primary_key=True)
-    type=db.Column('alert type' , db.Integer)
-    description=db.Column('description' , db.String(100))
-    frequency=db.Column('frequency' , db.Integer)
-    time=db.Column('time' , db.Time)
-    day=db.Column('day' , db.Date)
-    user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
+	__tablename__='ReminderAlarm'
+	id=db.Column('id' , db.Integer, primary_key=True)
+	type=db.Column('alert type' , db.Integer)
+	description=db.Column('description' , db.String(100))
+	frequency=db.Column('frequency' , db.Integer)
+	time=db.Column('time' , db.Time)
+	day=db.Column('day' , db.Date)
+	state=db.Column('state' ,db.Integer ,default=1)
+	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
 
 
 class Automation(db.Model):
@@ -102,7 +103,7 @@ class AutomationParameter(db.Model):
 	parameter=db.relationship('Automation' , backref='owner')
 
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
-#db.create_all()
+db.create_all()
 #db.drop_all()
 #######################
 

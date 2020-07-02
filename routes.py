@@ -77,10 +77,10 @@ def alarms_page():
 		frequency=request.form['frequency']
 		time=request.form['time']
 		day=request.form['day']
-		alarms = show_alarms()
-		reminders = show_reminders()
-		count_alarms = alarms.count()
-		count_reminders = reminders.count()
+	alarms = show_alarms()
+	reminders = show_reminders()
+	count_alarms = alarms.count()
+	count_reminders = reminders.count()
 	return render_template('alarms.html' , page='Alarms & Reminders' , alarms=alarms , reminders=reminders , count_alarms = count_alarms , count_reminders = count_reminders)
 
 @app.route("/appliances" , methods=['GET' , 'POST'])

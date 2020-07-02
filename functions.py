@@ -131,10 +131,10 @@ def delete_appliance(id):
 
 def show_alarms():
 	user_id=session['user_id']
-	alarms=ReminderAlarm.query.filter_by(user_id = user_id)
+	alarms=ReminderAlarm.query.filter_by(user_id = user_id,type=1)
 	return alarms
 
 def show_reminders():
 	user_id=session['user_id']
-	reminders=ReminderAlarm.query.filter_by(user_id = user_id)
+	reminders=ReminderAlarm.query.filter_by(user_id = user_id,type=2)
 	return reminders
