@@ -33,11 +33,11 @@
               </thead>
               <tbody>
 
-                {% set i = 1 %}
+                
                 {% for appliance in appliances %}
                 <tr>
                   <td>
-                    {{i}}
+                    {{loop.index}}
                   </td>
 
                   <td>
@@ -57,11 +57,11 @@
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();">Edit</a>/
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{appliance.id}}" style="display: inline-block"><input type="hidden" value="{{appliance.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><a href="" onClick="$('form#form{{appliance.id}}').submit();event.preventDefault();">Delete</a></form>
+                    <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
+					  <form action="/appliances" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{appliance.id}}" style="display: inline-block"><input type="hidden" value="{{appliance.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
                   </td>
                 </tr>
-                {% set i=i+1 %}
+               
                 {% endfor %}
                 {% else %}
                 <p>

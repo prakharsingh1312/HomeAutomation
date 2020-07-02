@@ -117,7 +117,7 @@ def appliances_page():
 			if result == 1:
 				msg='Appliance is deleted from the list.'
 				flash(msg,'success')
-			elif reult == 0:
+			elif result == 0:
 				msg='Cannot delete the appliance.'
 				flash(msg,'danger')
 	appliances=show_appliances()
