@@ -157,15 +157,14 @@ def add_alerts(type , description , frequency , time , day , id=0):
 	elif id :
 			if type == 1:
 				update_alarm = ReminderAlarm.query.filter_by(user_id = user_id , id=id).first()
-				update_alarm.type = type
-				update_alarm.description = descripotion
+				print(update_alarm)
+				update_alarm.description = description
 				update_alarm.frequency = frequency
 				update_alarm.time = time
 				db.session.commit()
 				return 3
 			elif type == 2:
 				update_reminder = ReminderAlarm.query.filter_by(user_id = user_id , id=id).first()
-				update_reminder.type = type
 				update_reminder.description = descripotion
 				update_reminder.time = time
 				update_reminder.day = day

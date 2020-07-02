@@ -77,7 +77,6 @@ def alarms_page():
 			type=1
 			description=request.form['description']
 			frequency=0
-			print (request.form.getlist('frequency'))
 			for freq in request.form.getlist('frequency'):
 				frequency+=int(freq)
 			time=datetime.strptime(request.form['time'],'%I:%M %p')
@@ -104,26 +103,29 @@ def alarms_page():
 			else:
 				msg='Cannot add Reminder.'
 				flash(msg,'danger')
-		elif request.values['submit'] == 'update_alarm':
+		elif request.values['submit'] == 'edit_alarm':
 			type=1
 			description=request.form['description']
-			frequency=request.form['frequency']
-			time=request.form['time']
-			day=request.form['day']
-			flag = add_alerts(type , description , time , day , id)
+			frequency=0
+			day='0'
+			id=request.form['id']
+			for freq in request.form.getlist('frequency'):
+				frequency+=int(freq)
+			time=datetime.strptime(request.form['time'],'%I:%M %p')
+			flag = add_alerts(type , description , frequency , time , day , id)
 			if flag == 3:
 				msg='Alarm has been updated successfully.'
 				flash(msg,'success')
 			else:
 				msg='Cannot update alarm.'
 				flash(msg,'danger')
-		elif request.values['submit'] == 'update_reminder':
+		elif request.values['submit'] == 'edit_reminder':
 			type=2
 			description=request.form['description']
 			frequency=request.form['frequency']
 			time=request.form['time']
 			day=request.form['day']
-			flag = add_alerts(type , description , time , day , id)
+			flag = add_alerts(type , description , frequency , time , day , id)
 			if flag == 4:
 				msg='Reminder has been updated successfully.'
 				flash(msg,'success')
