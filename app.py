@@ -77,7 +77,7 @@ class UserTable(db.Model):
 class ReminderAlarm(db.Model):
 	__tablename__='ReminderAlarm'
 	id=db.Column('id' , db.Integer, primary_key=True)
-	type=db.Column('alert type' , db.Integer)
+	type=db.Column('alert_type' , db.Integer)
 	description=db.Column('description' , db.String(100))
 	frequency=db.Column('frequency' , db.Integer)
 	time=db.Column('time' , db.Time)
@@ -104,7 +104,7 @@ class AutomationParameter(db.Model):
 	parameter=db.relationship('Automation' , backref='owner')
 
 	user_id=db.Column('user_id' , db.Integer , db.ForeignKey('user.id'))
-db.create_all()
+#db.create_all()
 #db.drop_all()
 #######################
 

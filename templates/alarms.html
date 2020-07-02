@@ -80,7 +80,7 @@
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , {{alarm.time}});event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , '{{alarm.time}}' , {{alarm.frequency}});event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
 					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden" value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
                   </td>
                 </tr>
@@ -188,7 +188,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="bmd-label-floating">Alarm Description</label>
-                  <input type="text" name='description' class="form-control" id="name" required>
+                  <input type="text" name='description' class="form-control" id="description" required>
                 </div>
               </div>
               <div class="col-md-12	">
@@ -216,9 +216,9 @@
                 </div>
               </div>
             </div>
-			  <input type="hidden" id="appliance_id" name='id'/>
-			  <input type="hidden" id="time" name='time'/>
-            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_alarm'>Add Alarm</button>
+			  <input type="hidden" id="alarm_id" name='id'/>
+			  <input type="hidden" id="alarm_time" name='time'/>
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitAlarm" value='add_alarm'>Add Alarm</button>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -257,7 +257,7 @@
             </div>
 			  <input type="hidden" id="appliance_id" name='id'/>
 			  
-            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Alarm</button>
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitReminder" value='add_appliance'>Add Alarm</button>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -284,20 +284,46 @@
 		}
 	});
 	}
-	function edit_alarm(id,time,days){
+	function edit_alarm(id,description,time,frequency){
 		$('#alarm_id').val(id);
-		$('#name').val(name);
-		$('#name').focus()
-		$('#days').val(days);
-		var state;
-		if($('#state'+id+':checkbox:checked').length > 0)
-		 	state = 1;
-		else
-			state = 0;
-		$('.selectpicker').selectpicker('val', state);
-		$('#appliance_title').html('Edit Alarm');
-		$('#submit').html('Edit Alarm');
-		$('#submit').val('edit_alarm');
+		$('#description').val(description);
+		var array =[];
+		for (var i=64;i>=1;i/=2){
+			if(frequency>=i){
+				frequency-=i;
+				array.push(i.toString());
+			}
+		}
+		var time= new Date('2020-09-09 '+time);
+		refresh(time);
+		$('#description').focus()
+		$('.selectpicker').selectpicker('val', array);
+		$('#alarm_title').html('Edit Alarm');
+		$('#submitAlarm').html('Edit Alarm');
+		$('#submitAlarm').val('edit_alarm');
+	}
+	function refresh(timestamp){
+		document.getElementById('first-mtr-datepicker').innerHTML='';
+		var config = {
+    target: 'first-mtr-datepicker',
+	timestamp: timestamp.getTime(),
+	datepicker:false,
+	smartHours: true,
+	minutes: {
+    min: 0,
+    max: 59,
+    step: 1
+  }
+  };
+
+  var myDatepicker = new MtrDatepicker(config);
+	var datepickerOutput = document.getElementById('alarm_time');
+	datepickerOutput.value=myDatepicker.format('hh:mm A');
+	myDatepicker.onChange('time', function() {
+		var datepickerOutput = document.getElementById('alarm_time');
+   datepickerOutput.value=myDatepicker.format('hh:mm A');
+		
+});
 	}
 	var config = {
     target: 'first-mtr-datepicker',
@@ -309,11 +335,14 @@
     step: 1
   }
   };
+
   var myDatepicker = new MtrDatepicker(config);
+	var datepickerOutput = document.getElementById('alarm_time');
+	datepickerOutput.value=myDatepicker.format('hh:mm A');
 	myDatepicker.onChange('time', function() {
-		var datepickerOutput = document.getElementById('time');
+		var datepickerOutput = document.getElementById('alarm_time');
    datepickerOutput.value=myDatepicker.format('hh:mm A');
-		console.log(myDatepicker.format('hh:mm A'));
+		
 });
 </script>
 {% endblock %}
