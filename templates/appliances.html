@@ -33,7 +33,7 @@
               </thead>
               <tbody>
 
-                
+
                 {% for appliance in appliances %}
                 <tr>
                   <td>
@@ -61,7 +61,7 @@
 					  <form action="/appliances" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{appliance.id}}" style="display: inline-block"><input type="hidden" value="{{appliance.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
                   </td>
                 </tr>
-               
+
                 {% endfor %}
                 {% else %}
                 <p>
@@ -93,7 +93,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="bmd-label-floating">Pin Number</label>
-                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
+                  <input type="number" name='pin_number' class="form-control" id="pin_number" required>
                 </div>
               </div>
             </div>

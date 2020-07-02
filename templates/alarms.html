@@ -17,7 +17,7 @@
                 <th>
                   ID
                 </th>
-				  <th>
+                <th>
                   Name
                 </th>
                 <th>
@@ -34,15 +34,15 @@
                 </th>
               </thead>
               <tbody>
-				{% set days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
-				  {% set list=[64,32,16,8,4,2,1] %}
-				  
-                
+                {% set days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+                {% set list=[64,32,16,8,4,2,1] %}
+
+
                 {% for alarm in alarms %}
-				
+
                 <tr>
                   <td>
-                   {{loop.index}}
+                    {{loop.index}}
                   </td>
 
                   <td>
@@ -51,40 +51,41 @@
                   <td>
                     {{alarm.time.strftime('%I:%M %p')}}
                   </td>
-					<td>
-						{% if alarm.frequency == 127 %}
-						Everyday
-						{% else %}
-						{% set temp= namespace(value=alarm.frequency) %}
-						{% for i in list %}
-						
-						{% if temp.value >= i %}
-					
-							{% set temp.value= temp.value-i %}
-							
-							{{ days[loop.index-1] }}
-							
-						{% endif %}
-						{% endfor %}
-			
-						{% endif %}
+                  <td>
+                    {% if alarm.frequency == 127 %}
+                    Everyday
+                    {% else %}
+                    {% set temp= namespace(value=alarm.frequency) %}
+                    {% for i in list %}
+
+                    {% if temp.value >= i %}
+
+                    {% set temp.value= temp.value-i %}
+
+                    {{ days[loop.index-1] }}
+
+                    {% endif %}
+                    {% endfor %}
+
+                    {% endif %}
                   </td>
 
 
                   <td>
-				
-                     <label class="switch m5  ">
-      <input type="checkbox" class="" {% if alarm.state==1 %} checked {% endif %} id="state{{alarm.id}}">
-      <small class="alarm_switch" onClick="toggle({{ alarm.id }});"></small>
-    </label>
+
+                    <label class="switch m5  ">
+                      <input type="checkbox" class="" {% if alarm.state==1 %} checked {% endif %} id="state{{alarm.id}}">
+                      <small class="alarm_switch" onClick="toggle({{ alarm.id }});"></small>
+                    </label>
 
                   </td>
                   <td>
                     <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , '{{alarm.time}}' , {{alarm.frequency}});event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden" value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
+                    <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden"
+                        value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
                   </td>
                 </tr>
-                
+
                 {% endfor %}
                 {% else %}
                 <p>
@@ -96,9 +97,9 @@
           </div>
         </div>
       </div>
-    </div> 
-	  
-	  <div class="col-md-6">
+    </div>
+
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-primary">
           <h4 class="card-title ">Reminders</h4>
@@ -121,7 +122,7 @@
                 <th>
                   Date
                 </th>
-				  <th>
+                <th>
                   State
                 </th>
                 <th>
@@ -130,7 +131,7 @@
               </thead>
               <tbody>
 
-      
+
                 {% for reminder in reminders %}
                 <tr>
                   <td>
@@ -143,26 +144,27 @@
                   <td>
                     {{reminder.time.strftime('%I:%M %p')}}
                   </td>
-					<td>
-						
+                  <td>
+
                     {{reminder.day.strftime('%d-%B-%Y')}}
                   </td>
 
 
                   <td>
 
-                     <label class="switch m5  ">
-      <input type="checkbox" class="" {% if reminder.state==1 %} checked {% endif %} id="state{{reminder.id}}">
-      <small class="reminder_switch" onClick="toggle({{ reminder.id }});"></small>
-    </label>
+                    <label class="switch m5  ">
+                      <input type="checkbox" class="" {% if reminder.state==1 %} checked {% endif %} id="state{{reminder.id}}">
+                      <small class="reminder_switch" onClick="toggle({{ reminder.id }});"></small>
+                    </label>
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_alarm({{reminder.id}} , '{{reminder.name}}' , {{reminder.pin_number}});event.preventDefault();"class="btn btn-primary btn-sm">Edit</a>
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm">	</form>
+                    <a href="#" onClick="edit_reminder({{reminder.id}} , '{{reminder.description}}' , '{{reminder.time}}' , '{{reminder.day}}');event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden"
+                        value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"> </form>
                   </td>
                 </tr>
-         
+
                 {% endfor %}
                 {% else %}
                 <p>
@@ -192,11 +194,11 @@
                 </div>
               </div>
               <div class="col-md-12	">
-				  <label class="bmd-label">Time</label>
+                <label class="bmd-label">Time</label>
                 <!-- input with datetimepicker -->
-<div id="first-mtr-datepicker"></div>
+                <div id="first-mtr-datepicker"></div>
+              </div>
             </div>
-			  </div>	
             <div class="row">
               <div class="col-md-6">
                 <label for="exampleFormControlSelect1">Days</label>
@@ -216,19 +218,19 @@
                 </div>
               </div>
             </div>
-			  <input type="hidden" id="alarm_id" name='id'/>
-			  <input type="hidden" id="alarm_time" name='time'/>
+            <input type="hidden" id="alarm_id" name='id' />
+            <input type="hidden" id="alarm_time" name='time' />
             <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitAlarm" value='add_alarm'>Add Alarm</button>
             <div class="clearfix"></div>
           </form>
         </div>
       </div>
-    </div>  
-	  
-	  <div class="col-md-6">
+    </div>
+
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-primary">
-          <h4 class="card-title" id="alarm_title">Add Reminder</h4>
+          <h4 class="card-title" id="reminder_title">Add Reminder</h4>
           <!-- <p class="card-category">Complete your profile</p> -->
         </div>
         <div class="card-body">
@@ -240,26 +242,27 @@
                   <input type="text" name='description' class="form-control" id="name" required>
                 </div>
               </div>
-			  </div>
-			  <div class="row">
-              <div class="col-md-12	">
-				  <label class="bmd-label">Date &amp; Time</label>
-				 <div class="form-group">  
-					 <div id="reminder_datepicker"></div></div>
             </div>
-				  </div>
-			  <input type="hidden" id="reminder_id" name='id'/>
-			  <input type="hidden" id="reminder_time" name='time'/>
-				  
+            <div class="row">
+              <div class="col-md-12	">
+                <label class="bmd-label">Date &amp; Time</label>
+                <div class="form-group">
+                  <div id="reminder_datepicker"></div>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="reminder_id" name='id' />
+            <input type="hidden" id="reminder_time" name='time' />
+
             <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitReminder" value='add_reminder'>Add Reminder</button>
             <div class="clearfix"></div>
           </form>
-        
+
+        </div>
       </div>
     </div>
   </div>
 </div>
-	</div>
 
 {% endblock %}
 
@@ -267,94 +270,133 @@
 
 <script type="text/javascript" src="./static/datepicker/dist/mtr-datepicker.min.js"></script>
 <script type="text/javascript">
-	
-	function toggle(id){
-		$.post('/alarms',{id:id , submit:'toggle'} , function(data){
-		if(data==1){
-			console.log('State Changed');
-		}
-		else{
-			console.log(data);
-		}
-	});
-	}
-	function edit_alarm(id,description,time,frequency){
-		$('#alarm_id').val(id);
-		$('#description').val(description);
-		var array =[];
-		for (var i=64;i>=1;i/=2){
-			if(frequency>=i){
-				frequency-=i;
-				array.push(i.toString());
-			}
-		}
-		var time= new Date('2020-09-09 '+time);
-		refresh(time);
-		$('#description').focus()
-		$('.selectpicker').selectpicker('val', array);
-		$('#alarm_title').html('Edit Alarm');
-		$('#submitAlarm').html('Edit Alarm');
-		$('#submitAlarm').val('edit_alarm');
-	}
-	function refresh(timestamp){
-		document.getElementById('first-mtr-datepicker').innerHTML='';
-		var config = {
-    target: 'first-mtr-datepicker',
-	timestamp: timestamp.getTime(),
-	datepicker:false,
-	smartHours: true,
-	minutes: {
-    min: 0,
-    max: 59,
-    step: 1
+  function toggle(id) {
+    $.post('/alarms', {
+      id: id,
+      submit: 'toggle'
+    }, function(data) {
+      if (data == 1) {
+        console.log('State Changed');
+      } else {
+        console.log(data);
+      }
+    });
   }
+
+  function edit_alarm(id, description, time, frequency) {
+    $('#alarm_id').val(id);
+    $('#description').val(description);
+    var array = [];
+    for (var i = 64; i >= 1; i /= 2) {
+      if (frequency >= i) {
+        frequency -= i;
+        array.push(i.toString());
+      }
+    }
+    var time = new Date('2020-09-09 ' + time);
+    refresh(time);
+    $('#description').focus()
+    $('.selectpicker').selectpicker('val', array);
+    $('#alarm_title').html('Edit Alarm');
+    $('#submitAlarm').html('Edit Alarm');
+    $('#submitAlarm').val('edit_alarm');
+  }
+
+  function refresh(timestamp) {
+    document.getElementById('first-mtr-datepicker').innerHTML = '';
+    var config = {
+      target: 'first-mtr-datepicker',
+      timestamp: timestamp.getTime(),
+      datepicker: false,
+      smartHours: true,
+      minutes: {
+        min: 0,
+        max: 59,
+        step: 1
+      }
+    };
+
+    var myDatepicker = new MtrDatepicker(config);
+    var datepickerOutput = document.getElementById('alarm_time');
+    datepickerOutput.value = myDatepicker.format('hh:mm A');
+    myDatepicker.onChange('time', function() {
+      var datepickerOutput = document.getElementById('alarm_time');
+      datepickerOutput.value = myDatepicker.format('hh:mm A');
+
+    });
+  }
+  var config = {
+    target: 'first-mtr-datepicker',
+    datepicker: false,
+    smartHours: true,
+    minutes: {
+      min: 0,
+      max: 59,
+      step: 1
+    }
   };
 
   var myDatepicker = new MtrDatepicker(config);
-	var datepickerOutput = document.getElementById('alarm_time');
-	datepickerOutput.value=myDatepicker.format('hh:mm A');
-	myDatepicker.onChange('time', function() {
-		var datepickerOutput = document.getElementById('alarm_time');
-   datepickerOutput.value=myDatepicker.format('hh:mm A');
-		
-});
-	}
-	var config = {
-    target: 'first-mtr-datepicker',
-		datepicker:false,
-		smartHours: true,
-		minutes: {
-    min: 0,
-    max: 59,
-    step: 1
-  }
-  };
+  var datepickerOutput = document.getElementById('alarm_time');
+  datepickerOutput.value = myDatepicker.format('hh:mm A');
+  myDatepicker.onChange('time', function() {
+    var datepickerOutput = document.getElementById('alarm_time');
+    datepickerOutput.value = myDatepicker.format('hh:mm A');
 
-  var myDatepicker = new MtrDatepicker(config);
-	var datepickerOutput = document.getElementById('alarm_time');
-	datepickerOutput.value=myDatepicker.format('hh:mm A');
-	myDatepicker.onChange('time', function() {
-		var datepickerOutput = document.getElementById('alarm_time');
-   datepickerOutput.value=myDatepicker.format('hh:mm A');
-		
-});
-var config2 = {
+  });
+  var config2 = {
+    future:true,
     target: 'reminder_datepicker',
-		smartHours: true,
-		minutes: {
-    min: 0,
-    max: 59,
-    step: 1
-  }
+    smartHours: true,
+    minutes: {
+      min: 0,
+      max: 59,
+      step: 1
+    }
   };
 
   var mDatepicker = new MtrDatepicker(config2);
-	var datepickerOutput2 = document.getElementById('reminder_time');
-	datepickerOutput2.value=myDatepicker.format('YYYY-MM-DD hh:mm A');
-	mDatepicker.onChange('all', function() {
-		var datepickerOutput2 = document.getElementById('reminder_time');
-   		datepickerOutput2.value=mDatepicker.format('YYYY-MM-DD hh:mm A');
-		
-});
+  var datepickerOutput2 = document.getElementById('reminder_time');
+  datepickerOutput2.value = myDatepicker.format('YYYY-MM-DD hh:mm A');
+  mDatepicker.onChange('all', function() {
+    var datepickerOutput2 = document.getElementById('reminder_time');
+    datepickerOutput2.value = mDatepicker.format('YYYY-MM-DD hh:mm A');
+
+  });
+
+  function edit_reminder(id, description, time, date) {
+    $('#reminder_id').val(id);
+    $('#name').val(description);
+    var time = new Date(date + " " + time);
+    refresh2(time);
+    $('#name').focus()
+    $('#reminder_title').html('Edit Reminder');
+    $('#submitReminder').html('Edit Reminder');
+    $('#submitReminder').val('edit_reminder');
+  }
+
+  function refresh2(timestamp) {
+    document.getElementById('reminder_datepicker').innerHTML = '';
+    var config2 = {
+      future:true,
+      timestamp: timestamp,
+      target: 'reminder_datepicker',
+      smartHours: true,
+      minutes: {
+        min: 0,
+        max: 59,
+        step: 1
+      }
+    };
+
+    var mDatepicker = new MtrDatepicker(config2);
+    var datepickerOutput2 = document.getElementById('reminder_time');
+    datepickerOutput2.value = myDatepicker.format('YYYY-MM-DD hh:mm A');
+    mDatepicker.onChange('all', function() {
+      var datepickerOutput2 = document.getElementById('reminder_time');
+      datepickerOutput2.value = mDatepicker.format('YYYY-MM-DD hh:mm A');
+
+    });
+  }
 </script>
 {% endblock %}

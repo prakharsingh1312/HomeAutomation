@@ -120,6 +120,7 @@ def alarms_page():
 		elif request.values['submit'] == 'edit_reminder':
 			type=2
 			description=request.form['description']
+			id=request.form['id']
 			frequency=0
 			time=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').time()
 			day=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').date()
