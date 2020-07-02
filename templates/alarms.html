@@ -159,7 +159,7 @@
                   </td>
                   <td>
                     <a href="#" onClick="edit_alarm({{reminder.id}} , '{{reminder.name}}' , {{reminder.pin_number}});event.preventDefault();"class="btn btn-primary btn-sm">Edit</a>
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alarm" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm">	</form>
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm">	</form>
                   </td>
                 </tr>
          
@@ -237,35 +237,29 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="bmd-label-floating">Reminder Description</label>
-                  <input type="text" name='name' class="form-control" id="name" required>
+                  <input type="text" name='description' class="form-control" id="name" required>
                 </div>
               </div>
-              <div class="col-md-6	">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Time</label>
-                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
-                </div>
-              </div>
+			  </div>
+			  <div class="row">
+              <div class="col-md-12	">
+				  <label class="bmd-label">Date &amp; Time</label>
+				 <div class="form-group">  
+					 <div id="reminder_datepicker"></div></div>
             </div>
-            <div class="row">
-              <div class="col-md-6	">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Date</label>
-                  <input type="text" name='date' class="form-control" id="date" required>
-                </div>
-              </div>
-            </div>
-			  <input type="hidden" id="appliance_id" name='id'/>
-			  
-            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitReminder" value='add_appliance'>Add Alarm</button>
+				  </div>
+			  <input type="hidden" id="reminder_id" name='id'/>
+			  <input type="hidden" id="reminder_time" name='time'/>
+				  
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submitReminder" value='add_reminder'>Add Reminder</button>
             <div class="clearfix"></div>
           </form>
-        </div>
+        
       </div>
     </div>
   </div>
 </div>
-
+	</div>
 
 {% endblock %}
 
@@ -342,6 +336,24 @@
 	myDatepicker.onChange('time', function() {
 		var datepickerOutput = document.getElementById('alarm_time');
    datepickerOutput.value=myDatepicker.format('hh:mm A');
+		
+});
+var config2 = {
+    target: 'reminder_datepicker',
+		smartHours: true,
+		minutes: {
+    min: 0,
+    max: 59,
+    step: 1
+  }
+  };
+
+  var mDatepicker = new MtrDatepicker(config2);
+	var datepickerOutput2 = document.getElementById('reminder_time');
+	datepickerOutput2.value=myDatepicker.format('YYYY-MM-DD hh:mm A');
+	mDatepicker.onChange('all', function() {
+		var datepickerOutput2 = document.getElementById('reminder_time');
+   		datepickerOutput2.value=mDatepicker.format('YYYY-MM-DD hh:mm A');
 		
 });
 </script>

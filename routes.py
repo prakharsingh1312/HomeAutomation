@@ -92,10 +92,8 @@ def alarms_page():
 			type=2
 			description=request.form['description']
 			frequency=0
-			for freq in request.form['frequency']:
-				frequency+=int(freq)
-			time=datetime.strptime(request.form['time'],'%I:%M %p')
-			day=request.form['day']
+			time=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').time()
+			day=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').date()
 			flag = add_alerts(type , description , frequency , time , day)
 			if flag == 2:
 				msg='Reminder has been added successfully.'
@@ -122,9 +120,9 @@ def alarms_page():
 		elif request.values['submit'] == 'edit_reminder':
 			type=2
 			description=request.form['description']
-			frequency=request.form['frequency']
-			time=request.form['time']
-			day=request.form['day']
+			frequency=0
+			time=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').time()
+			day=datetime.strptime(request.form['time'],'%Y-%m-%d %I:%M %p').date()
 			flag = add_alerts(type , description , frequency , time , day , id)
 			if flag == 4:
 				msg='Reminder has been updated successfully.'
