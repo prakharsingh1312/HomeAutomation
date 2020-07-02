@@ -1,4 +1,154 @@
 {% extends 'base.html' %}
 {% block Sidebar %}{% include 'side-bar.html' %}{% endblock %}
-{% block Content %}{% endblock %}
-{% block Scripts %}{% endblock %}
+{% block Content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title ">Appliances Table</h4>
+          <p class="card-category"> Your appliances are listed here.</p>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            {% if count > 0 %}
+            <table class="table table-hover">
+              <thead class=" text-primary">
+                <th>
+                  ID
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  PIN Number
+                </th>
+                <th>
+                  State
+                </th>
+                <th>
+                  Options
+                </th>
+              </thead>
+              <tbody>
+
+                {% set i = 1 %}
+                {% for appliance in appliances %}
+                <tr>
+                  <td>
+                    {{i}}
+                  </td>
+
+                  <td>
+                    {{appliance.name}}
+                  </td>
+                  <td>
+                    {{appliance.pin_number}}
+                  </td>
+
+
+                  <td>
+
+                     <label class="switch m5  ">
+      <input type="checkbox" class="" {% if appliance.state==1 %} checked {% endif %} id="state{{appliance.id}}">
+      <small class="appliance_switch" onClick="toggle({{ appliance.id }});"></small>
+    </label>
+
+                  </td>
+                  <td>
+                    <a href="#" onClick="edit_appliance({{appliance.id}} , '{{appliance.name}}' , {{appliance.pin_number}});event.preventDefault();">Edit</a>/
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{appliance.id}}" style="display: inline-block"><input type="hidden" value="{{appliance.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><a href="" onClick="$('form#form{{appliance.id}}').submit();event.preventDefault();">Delete</a></form>
+                  </td>
+                </tr>
+                {% set i=i+1 %}
+                {% endfor %}
+                {% else %}
+                <p>
+                  Nothing to show.
+                </p>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title" id="appliance_title">Add Appliance</h4>
+          <!-- <p class="card-category">Complete your profile</p> -->
+        </div>
+        <div class="card-body">
+          <form action="" method='POST'>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Appliance Name</label>
+                  <input type="text" name='name' class="form-control" id="name" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Pin Number</label>
+                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label for="exampleFormControlSelect1">State</label>
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" id="state" name='state'>
+                    <option value=1>ON</option>
+                    <option value=0>OFF</option>
+                    <!-- <option>3</option>
+                      <option>4</option>
+                      <option>5</option> -->
+                  </select>
+                </div>
+              </div>
+            </div>
+			  <input type="hidden" id="appliance_id" name='id'/>
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Appliance</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block Scripts %}
+<script type="text/javascript">
+	function toggle(id){
+		$.post('/appliances',{id:id , submit:'toggle'} , function(data){
+		if(data==1){
+			console.log('State Changed');
+		}
+		else{
+			console.log(data);
+		}
+	});
+	}
+	function edit_appliance(id,name,pin){
+		$('#appliance_id').val(id);
+		$('#name').val(name);
+		$('#name').focus()
+		$('#pin_number').val(pin);
+		var state;
+		if($('#state'+id+':checkbox:checked').length > 0)
+		 	state = 1;
+		else
+			state = 0;
+		$('.selectpicker').selectpicker('val', state);
+		$('#appliance_title').html('Edit Appliance');
+		$('#submit').html('Edit Appliance');
+		$('#submit').val('edit_appliance');
+	}
+</script>
+{% endblock %}
