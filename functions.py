@@ -150,7 +150,7 @@ def add_alerts(type , description , frequency , time , day , id=0):
 			return 1
 		elif type == 2:
 			user=UserTable.query.filter_by(id = user_id).first()
-			reminders=ReminderAlarm(type = type , description = description  , time = time , day = day)
+			reminders=ReminderAlarm(type = type , description = description  , time = time , day = day, owner=user)
 			db.session.add(reminders)
 			db.session.commit()
 			return 2
