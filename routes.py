@@ -67,11 +67,21 @@ def expenses_page():
 		return redirect(url_for('login_page'))
 	return render_template('expenses.html' , page='Expenses')
 
-@app.route("/alarms")
+@app.route("/alarms" , methods=['GET' , 'POST'])
 def alarms_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
-	return render_template('alarms.html' , page='Alarms & Reminders')
+	elif request.form == 'POST':
+		type=request.form['type']
+		description=request.form['description']
+		frequency=request.form['frequency']
+		time=request.form['time']
+		day=request.form['day']
+		alarms = show_alarms()
+		reminders = show_reminders()
+		count_alarms = alarms.count()
+		count_reminders = reminders.count()
+	return render_template('alarms.html' , page='Alarms & Reminders' , alarms=alarms , reminders=reminders , count_alarms = count_alarms , count_reminders = count_reminders)
 
 @app.route("/appliances" , methods=['GET' , 'POST'])
 def appliances_page():

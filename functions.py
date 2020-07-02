@@ -128,3 +128,13 @@ def delete_appliance(id):
 		db.session.commit()
 		return 1
 	return 0
+
+def show_alarms():
+	user_id=session['user_id']
+	alarms=ReminderAlarm.query.filter_by(user_id = user_id)
+	return alarms
+
+def show_reminders():
+	user_id=session['user_id']
+	reminders=ReminderAlarm.query.filter_by(user_id = user_id)
+	return reminders
