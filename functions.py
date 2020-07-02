@@ -143,14 +143,14 @@ def add_alerts(type , description , frequency , time , day , id=0):
 	user_id = session['user_id']
 	if not id:
 		if type == 1:
-			user=UserTable.query.filter_by(user_id = user_id).first()
-			alarms=ReminderAlarm(type = type , description = description , frequency = frequency , time = time , day = day , owner=user)
+			user=UserTable.query.filter_by(id = user_id).first()
+			alarms=ReminderAlarm(type = type , description = description , frequency = frequency , time = time  , owner=user)
 			db.session.add(alarms)
 			db.session.commit()
 			return 1
 		elif type == 2:
-			user=UserTable.query.filter_by(user_id = user_id).first()
-			reminders=ReminderAlarm(type = type , description = description , frequency = frequency , time = time , day = day)
+			user=UserTable.query.filter_by(id = user_id).first()
+			reminders=ReminderAlarm(type = type , description = description  , time = time , day = day)
 			db.session.add(reminders)
 			db.session.commit()
 			return 2
@@ -161,14 +161,12 @@ def add_alerts(type , description , frequency , time , day , id=0):
 				update_alarm.description = descripotion
 				update_alarm.frequency = frequency
 				update_alarm.time = time
-				update_alarm.day = day
 				db.session.commit()
 				return 3
 			elif type == 2:
 				update_reminder = ReminderAlarm.query.filter_by(user_id = user_id , id=id).first()
 				update_reminder.type = type
 				update_reminder.description = descripotion
-				update_reminder.frequency = frequency
 				update_reminder.time = time
 				update_reminder.day = day
 				db.session.commit()
@@ -184,9 +182,9 @@ def delete_alert(id):
 	return 0
 
 def toggle_alert(alert_id):
-	alert=ReminderAlarm.query.filter_by(user_id = session['user_id'] , id=id)
+	alert=ReminderAlarm.query.filter_by(user_id = session['user_id'] , id=alert_id)
 	if alert.count():
-		alert=appliance.first()
+		alert=alert.first()
 		alert.state=(alert.state + 1) % 2
 		db.session.commit()
 		return '1'

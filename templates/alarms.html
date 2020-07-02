@@ -3,7 +3,7 @@
 {% block Content %}
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-primary">
           <h4 class="card-title ">Alarms</h4>
@@ -34,9 +34,12 @@
                 </th>
               </thead>
               <tbody>
-
+				{% set days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+				  {% set list=[64,32,16,8,4,2,1] %}
+				  
                 
                 {% for alarm in alarms %}
+				
                 <tr>
                   <td>
                    {{loop.index}}
@@ -46,10 +49,25 @@
                     {{alarm.description}}
                   </td>
                   <td>
-                    {{alarm.time}}
+                    {{alarm.time.strftime('%I:%M %p')}}
                   </td>
 					<td>
-                    {{alarm.frequency}}
+						{% if alarm.frequency == 127 %}
+						Everyday
+						{% else %}
+						{% set temp= namespace(value=alarm.frequency) %}
+						{% for i in list %}
+						
+						{% if temp.value >= i %}
+					
+							{% set temp.value= temp.value-i %}
+							
+							{{ days[loop.index-1] }}
+							
+						{% endif %}
+						{% endfor %}
+			
+						{% endif %}
                   </td>
 
 
@@ -62,8 +80,8 @@
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , {{alarm.time}});event.preventDefault();">Edit</a>/
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden" value="delete_appliance" name="submit" /><a href="" onClick="$('form#form{{alarm.id}}').submit();event.preventDefault();">Delete</a></form>
+                    <a href="#" onClick="edit_alarm({{alarm.id}} , '{{alarm.description}}' , {{alarm.time}});event.preventDefault();" class="btn btn-primary btn-sm">Edit</a>
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{alarm.id}}" style="display: inline-block"><input type="hidden" value="{{alarm.id}}" name="id" /><input type="hidden" value="delete_alert" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm"></form>
                   </td>
                 </tr>
                 
@@ -80,7 +98,7 @@
       </div>
     </div> 
 	  
-	  <div class="col-md-12">
+	  <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-primary">
           <h4 class="card-title ">Reminders</h4>
@@ -123,10 +141,11 @@
                     {{reminder.description}}
                   </td>
                   <td>
-                    {{reminder.time}}
+                    {{reminder.time.strftime('%I:%M %p')}}
                   </td>
 					<td>
-                    {{reminder.day}}
+						
+                    {{reminder.day.strftime('%d-%B-%Y')}}
                   </td>
 
 
@@ -139,8 +158,8 @@
 
                   </td>
                   <td>
-                    <a href="#" onClick="edit_alarm({{reminder.id}} , '{{reminder.name}}' , {{reminder.pin_number}});event.preventDefault();">Edit</a>/
-					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alarm" name="submit" /><a href="" onClick="$('form#form{{reminder.id}}').submit();event.preventDefault();">Delete</a></form>
+                    <a href="#" onClick="edit_alarm({{reminder.id}} , '{{reminder.name}}' , {{reminder.pin_number}});event.preventDefault();"class="btn btn-primary btn-sm">Edit</a>
+					  <form action="" method="POST" onSubmit="return confirm('Are you sure you wish to delete?');" id="form{{reminder.id}}" style="display: inline-block"><input type="hidden" value="{{reminder.id}}" name="id" /><input type="hidden" value="delete_alarm" name="submit" /><input type="submit" value='Delete' style="" class="btn btn-primary btn-sm">	</form>
                   </td>
                 </tr>
          
@@ -157,35 +176,39 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header card-header-primary">
-          <h4 class="card-title" id="appliance_title">Add Alarm</h4>
+          <h4 class="card-title" id="alarm_title">Add Alarm</h4>
           <!-- <p class="card-category">Complete your profile</p> -->
         </div>
         <div class="card-body">
           <form action="" method='POST'>
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-12">
                 <div class="form-group">
-                  <label class="bmd-label-floating">Appliance Name</label>
-                  <input type="text" name='name' class="form-control" id="name" required>
+                  <label class="bmd-label-floating">Alarm Description</label>
+                  <input type="text" name='description' class="form-control" id="name" required>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Pin Number</label>
-                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
-                </div>
-              </div>
+              <div class="col-md-12	">
+				  <label class="bmd-label">Time</label>
+                <!-- input with datetimepicker -->
+<div id="first-mtr-datepicker"></div>
             </div>
+			  </div>	
             <div class="row">
-              <div class="col-md-2">
-                <label for="exampleFormControlSelect1">State</label>
+              <div class="col-md-6">
+                <label for="exampleFormControlSelect1">Days</label>
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" id="state" name='state'>
-                    <option value=1>ON</option>
-                    <option value=0>OFF</option>
+                  <select class="form-control selectpicker" multiple data-style="btn btn-link" id="frequency" name='frequency'>
+                    <option value="64">Monday</option>
+                    <option value="32">Tuesday</option>
+                    <option value="16">Wednesday</option>
+                    <option value="8">Thursday</option>
+                    <option value="4">Friday</option>
+                    <option value="2">Saturday</option>
+                    <option value="1">Sunday</option>
                     <!-- <option>3</option>
                       <option>4</option>
                       <option>5</option> -->
@@ -194,7 +217,47 @@
               </div>
             </div>
 			  <input type="hidden" id="appliance_id" name='id'/>
-            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Appliance</button>
+			  <input type="hidden" id="time" name='time'/>
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_alarm'>Add Alarm</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>  
+	  
+	  <div class="col-md-6">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title" id="alarm_title">Add Reminder</h4>
+          <!-- <p class="card-category">Complete your profile</p> -->
+        </div>
+        <div class="card-body">
+          <form action="" method='POST'>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Reminder Description</label>
+                  <input type="text" name='name' class="form-control" id="name" required>
+                </div>
+              </div>
+              <div class="col-md-6	">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Time</label>
+                  <input type="text" name='pin_number' class="form-control" id="pin_number" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6	">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Date</label>
+                  <input type="text" name='date' class="form-control" id="date" required>
+                </div>
+              </div>
+            </div>
+			  <input type="hidden" id="appliance_id" name='id'/>
+			  
+            <button type="submit" class="btn btn-primary pull-right" name="submit" id="submit" value='add_appliance'>Add Alarm</button>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -207,9 +270,12 @@
 {% endblock %}
 
 {% block Scripts %}
+
+<script type="text/javascript" src="./static/datepicker/dist/mtr-datepicker.min.js"></script>
 <script type="text/javascript">
+	
 	function toggle(id){
-		$.post('/appliances',{id:id , submit:'toggle'} , function(data){
+		$.post('/alarms',{id:id , submit:'toggle'} , function(data){
 		if(data==1){
 			console.log('State Changed');
 		}
@@ -218,20 +284,36 @@
 		}
 	});
 	}
-	function edit_appliance(id,name,pin){
-		$('#appliance_id').val(id);
+	function edit_alarm(id,time,days){
+		$('#alarm_id').val(id);
 		$('#name').val(name);
 		$('#name').focus()
-		$('#pin_number').val(pin);
+		$('#days').val(days);
 		var state;
 		if($('#state'+id+':checkbox:checked').length > 0)
 		 	state = 1;
 		else
 			state = 0;
 		$('.selectpicker').selectpicker('val', state);
-		$('#appliance_title').html('Edit Appliance');
-		$('#submit').html('Edit Appliance');
-		$('#submit').val('edit_appliance');
+		$('#appliance_title').html('Edit Alarm');
+		$('#submit').html('Edit Alarm');
+		$('#submit').val('edit_alarm');
 	}
+	var config = {
+    target: 'first-mtr-datepicker',
+		datepicker:false,
+		smartHours: true,
+		minutes: {
+    min: 0,
+    max: 59,
+    step: 1
+  }
+  };
+  var myDatepicker = new MtrDatepicker(config);
+	myDatepicker.onChange('time', function() {
+		var datepickerOutput = document.getElementById('time');
+   datepickerOutput.value=myDatepicker.format('hh:mm A');
+		console.log(myDatepicker.format('hh:mm A'));
+});
 </script>
 {% endblock %}

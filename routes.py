@@ -71,15 +71,18 @@ def expenses_page():
 def alarms_page():
 	if 'user_id' not in session:
 		return redirect(url_for('login_page'))
-	elif request.form == 'POST':
+	elif request.method == 'POST':
 		msg = None
 		if request.form['submit'] == 'add_alarm':
-			type=request.form['type']
+			type=1
 			description=request.form['description']
-			frequency=request.form['frequency']
-			time=request.form['time']
-			day=request.form['day']
-			flag = add_alerts(type , description , time , day)
+			frequency=0
+			print (request.form.getlist('frequency'))
+			for freq in request.form.getlist('frequency'):
+				frequency+=int(freq)
+			time=datetime.strptime(request.form['time'],'%I:%M %p')
+			day='0'
+			flag = add_alerts(type , description,frequency , time , day)
 			if flag == 1:
 				msg='Alarm has been added successfully.'
 				flash(msg,'success')
@@ -87,10 +90,12 @@ def alarms_page():
 				msg='Alarm was not added.'
 				flash(msg,'danger')
 		elif request.values['submit'] == 'add_reminder':
-			type=request.form['type']
+			type=2
 			description=request.form['description']
-			frequency=request.form['frequency']
-			time=request.form['time']
+			frequency=0
+			for freq in request.form['frequency']:
+				frequency+=int(freq)
+			time=datetime.strptime(request.form['time'],'%I:%M %p')
 			day=request.form['day']
 			flag = add_alerts(type , description , frequency , time , day)
 			if flag == 2:
@@ -100,7 +105,7 @@ def alarms_page():
 				msg='Cannot add Reminder.'
 				flash(msg,'danger')
 		elif request.values['submit'] == 'update_alarm':
-			type=request.form['type']
+			type=1
 			description=request.form['description']
 			frequency=request.form['frequency']
 			time=request.form['time']
@@ -113,7 +118,7 @@ def alarms_page():
 				msg='Cannot update alarm.'
 				flash(msg,'danger')
 		elif request.values['submit'] == 'update_reminder':
-			type=request.form['type']
+			type=2
 			description=request.form['description']
 			frequency=request.form['frequency']
 			time=request.form['time']
@@ -127,7 +132,16 @@ def alarms_page():
 				flash(msg,'reminder')
 		elif request.values['submit'] == 'toggle':
 			alert_id = request.values['id']
-			return toggle_appliance(appliance_id)
+			return toggle_alert(alert_id)
+		elif request.values['submit'] == 'delete_alert':
+			alert_id = request.form['id']
+			result =delete_alert(alert_id)
+			if result == 1:
+				msg='Alarm has been deleted.'
+				flash(msg,'success')
+			elif result == 0:
+				msg='Cannot delete the alarm.'
+				flash(msg,'danger')
 
 	alarms = show_alarms()
 	reminders = show_reminders()
