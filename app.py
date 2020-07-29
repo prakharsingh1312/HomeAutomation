@@ -9,12 +9,12 @@ app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
     MAIL_USE_SSL=True,
-    MAIL_USERNAME = 'upadhayayupadhayay@gmail.com',
-    MAIL_PASSWORD = 'Azps#1913'
+    MAIL_USERNAME = 'email',
+    MAIL_PASSWORD = 'password'
 )
 mail=Mail(app)
 app.secret_key = 'popatpanda'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://HomeAuto:Popat#Panda#1234$@3.6.235.34/HomeAutomation'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@host/database'
 db=SQLAlchemy(app)
 
 # Tables
