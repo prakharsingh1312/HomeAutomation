@@ -21,7 +21,7 @@ def signup(name,password,email):
 	return 0
 
 def crypt_password(password):
-	salt='maakichoot'
+	salt=''
 	password=str(password)+salt
 	password=hashlib.md5(password.encode())
 	return password.hexdigest()
