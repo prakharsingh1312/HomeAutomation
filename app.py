@@ -13,7 +13,7 @@ app.config.update(
     MAIL_PASSWORD = 'password'
 )
 mail=Mail(app)
-app.secret_key = 'popatpanda'
+app.secret_key = 'pandapopat'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@host/database'
 db=SQLAlchemy(app)
 
